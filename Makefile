@@ -7,7 +7,6 @@ INPUTDIR=$(BASEDIR)/content
 OUTPUTDIR=$(BASEDIR)/output
 CONFFILE=$(BASEDIR)/pelicanconf.py
 PUBLISHCONF=$(BASEDIR)/publishconf.py
-
 FTP_HOST=localhost
 FTP_USER=anonymous
 FTP_TARGET_DIR=/
@@ -20,6 +19,8 @@ SSH_TARGET_DIR=/var/www
 S3_BUCKET=my_s3_bucket
 
 DROPBOX_DIR=~/Dropbox/Public/
+
+GITHUB_USERID=theskumar
 
 help:
 	@echo 'Makefile for a pelican Web site                                        '
@@ -82,7 +83,7 @@ s3_upload: publish
 	s3cmd sync $(OUTPUTDIR)/ s3://$(S3_BUCKET) --acl-public --delete-removed
 
 github: publish
-	ghp-import $(OUTPUTDIR)
-	git push origin gh-pages
+	ghp-import $(OUTPUTDIR) -m "Blog updated"
+	git push git@public.github.com:$(GITHUB_USERID)/$(GITHUB_USERID).github.com.git gh-pages:master
 
 .PHONY: html help clean regenerate serve devserver publish ssh_upload rsync_upload dropbox_upload ftp_upload s3_upload github

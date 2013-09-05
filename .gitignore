@@ -63,3 +63,4 @@ nosetests.xml
 
 output/
 venv/
+*.pid
