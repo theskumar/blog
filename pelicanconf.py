@@ -13,7 +13,7 @@ DEFAULT_LANG = u'en'
 
 THEME = os.path.join(os.path.expanduser('~') + "/pelican-themes/svbtle-responsive")
 
-FILES_TO_COPY = (('extra/CNAME', 'CNAME'),)
+# FILES_TO_COPY = (('extra/CNAME', 'CNAME'),)
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None

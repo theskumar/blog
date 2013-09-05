@@ -4,7 +4,6 @@ Django: Useful resource compilation
 :tags: python, django, Programming
 :slug: django
 :category: programming
-:author: Saurabh
 
 
 The best place to get started with `Django`_ is to explore it's official

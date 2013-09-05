@@ -20,8 +20,6 @@ S3_BUCKET=my_s3_bucket
 
 DROPBOX_DIR=~/Dropbox/Public/
 
-GITHUB_USERID=theskumar
-
 help:
 	@echo 'Makefile for a pelican Web site                                        '
 	@echo '                                                                       '
@@ -84,6 +82,6 @@ s3_upload: publish
 
 github: publish
 	ghp-import $(OUTPUTDIR) -m "Blog updated"
-	git push git@public.github.com:$(GITHUB_USERID)/$(GITHUB_USERID).github.com.git gh-pages:master
+	git push origin gh-pages
 
 .PHONY: html help clean regenerate serve devserver publish ssh_upload rsync_upload dropbox_upload ftp_upload s3_upload github
