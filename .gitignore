@@ -59,3 +59,7 @@ nosetests.xml
 *.sublime-workspace
 
 
+# Project Specific
+
+output/
+venv/
