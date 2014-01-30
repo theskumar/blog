@@ -3,6 +3,7 @@ Date: 2013-08-20 04:43
 Tags: python, django, Programming
 Category: programming
 Slug: django
+Summary: A list of different django framework related links and resources. Recommended for those who are new to Django Framework.
 
 The best place to get started with [Django][1] is to explore it's official site and then dig into it's [source code][2] on Github, and then ask questions either on [stack overflow][3] or it's user's [mailing-list][4]. And for obvious reasons, you'll find Google your friend at every step.
 
