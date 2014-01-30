@@ -23,6 +23,7 @@ TRANSLATION_FEED_ATOM = None
 # Blogroll
 LINKS =  ()
 
+USER_LOGO_URL = 'https://1.gravatar.com/avatar/fc974e2829eac6e3512a9d7f82e04723?s=160'
 
 # Social widget
 SOCIAL = (('Github', 'http://github.com/theskumar'),
