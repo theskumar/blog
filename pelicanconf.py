@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 import os
 
-AUTHOR = u'theskumar'
+AUTHOR = u'Saurabh Kumar'
 SITENAME = u'Saurabh Kumar'
 SITEURL = ''
 
@@ -11,7 +11,7 @@ TIMEZONE = 'Asia/Kolkata'
 
 DEFAULT_LANG = u'en'
 
-THEME = os.path.join(os.path.expanduser('~') + "/pelican-themes/svbtle-responsive")
+THEME = "theme/pelican-svbtle-responsive"
 
 # FILES_TO_COPY = (('extra/CNAME', 'CNAME'),)
 
