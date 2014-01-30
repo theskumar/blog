@@ -9,8 +9,9 @@ The best place to get started with [Django][1] is to explore it's official site 
 
 Here is a list of my personal recommendation and references to the some of resources, I find useful and interesting.
 
-## Books
+## Books & Magazines
 
+-  [Python Weekly](http://www.pythonweekly.com/)
 -  [Pro Python][5]
 -  [Two scoops of Django][6]
 
