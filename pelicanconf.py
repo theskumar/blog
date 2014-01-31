@@ -6,7 +6,7 @@ import os
 AUTHOR = u'Saurabh Kumar'
 SITENAME = u'Saurabh Kumar'
 SITEURL = ''
-
+TAGLINE = u'Thoughts and Writings'
 TIMEZONE = 'Asia/Kolkata'
 
 DEFAULT_LANG = u'en'
