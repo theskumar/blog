@@ -2,7 +2,7 @@ Title: virutalenv vs virtualenv Wrapper
 Date: 2014-04-05 12:43
 Tags: shell, python
 Category: software
-Summary: This post discusses if given the choice between [virtualenv][1] and virtualenvwrapper, what you should choose for working on a project and why.
+Summary: This post discusses if given the choice between [virtualenv][1] and virtualenvwrapper, what you should choose for working on a project and why?
 
 **[virtualenv][1]** is a tool to create isolated Python environments. It's core advantage is you can manage different version of python libraries for your different projects.
 
