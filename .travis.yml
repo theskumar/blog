@@ -1,0 +1,22 @@
+branches:
+  only:
+  - master
+language: python
+python:
+- 2.7
+install:
+- pip install -r requirements.txt --use-mirrors
+script:
+- make html
+notifications:
+  email:
+    on_success: always
+    on_failure: always
+env:
+  global:
+  - OUTPUTDIR: output
+  - GH_REF: github.com/theskumar/blog.git
+  - secure: AaAdwcrdSwHJ0jZSSNr7dNL6xO9l68tzEBz0be+M4zli60As+w/r+H+YD+RnhQa7GwNC/qAaAQx2Yciw1FRiioQVjE7UVQMNxNDR+3/Kt4dpHpWKH3yXEf9KQKcJJERp49/rXFKOhsMK/isJA3dMkGaHCJVKtdYyjGVcwVbuJpg=
+before_install:
+  - git submodule update --init --recursive
+after_success: bash travis_deploy.sh
