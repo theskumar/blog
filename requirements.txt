@@ -12,3 +12,4 @@ six==1.5.2 # Updated from 1.4.1
 smartypants==1.8.3 # Updated from 1.8.2
 typogrify==2.0.1 # Updated from 2.0.0
 wsgiref==0.1.2
+ghp-import
