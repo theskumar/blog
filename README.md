@@ -1,5 +1,7 @@
 # My Blog 
 
+[![Requirements Status](https://requires.io/github/theskumar/blog/requirements.png?branch=master)](https://requires.io/github/theskumar/blog/requirements/?branch=master)
+
 Built with [Pelican][1]
 
 ## Setup
