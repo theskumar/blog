@@ -10,6 +10,7 @@ TAGLINE = u'Thoughts and Writings'
 TIMEZONE = 'Asia/Kolkata'
 
 DEFAULT_LANG = u'en'
+TYPOGRIFY = True
 
 THEME = "theme/pelican-svbtle-responsive"
 
