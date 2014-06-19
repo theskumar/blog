@@ -19,6 +19,7 @@ Here is a list of my personal recommendation and references to the some of resou
 
 -  [Using Django querysets effectively][7] - Use of ``.iterator()`` to make the database query efficient.
 -  [Core Concepts of Django ModelForms][8]
+-  [Celery Best Practices](https://denibertovic.com/posts/celery-best-practices/) by Deni
 
 ## Apps & Libraries
 
