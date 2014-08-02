@@ -4,6 +4,7 @@ Prevent Hash DoS in python
 :tags: python, security
 :slug: hash-dos-in-python
 :category: programming
+:summary: How can you prevent denial of service attacks in python if you are using python <= 3
 
 
 .. raw:: html
