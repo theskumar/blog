@@ -1,8 +1,8 @@
-Title: Django: Useful resource compilation  
+Title: Django: Useful resource  compilation  
+Slug: django  
 Date: 2013-08-20 04:43  
 Tags: python, django, Programming  
 Category: programming  
-Slug: django  
 Summary: A list of different django framework related links and resources. Recommended for those who are new to Django Framework. 
 
 The best place to get started with [Django][1] is to explore it's official site and then dig into it's [source code][2] on Github, and then ask questions either on [stack overflow][3] or it's user's [mailing-list][4]. And for obvious reasons, you'll find Google your friend at every step.
@@ -41,6 +41,9 @@ Sysadmin/ Deployment
 
 **If you have reached till here and would like to explore more checkout [my stared python repo list][20].**
 
+EDITS:
+
+- There is an [awesome-django](https://github.com/rosarior/awesome-django#awesome-django) project on github that has curated list of awesome Django apps and projects, that you should definetely check-out. 
 
   [1]: https://www.djangoproject.com/
   [2]: https://github.com/django/django
