@@ -1,7 +1,7 @@
 Title: Django: Useful resource  compilation  
 Slug: django  
 Date: 2013-08-20 04:43  
-Tags: python, django, Programming  
+Tags: python, django  
 Category: programming  
 Summary: A list of different django framework related links and resources. Recommended for those who are new to Django Framework. 
 
