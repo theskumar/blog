@@ -202,4 +202,10 @@ Conclusion
 If you’re effective, visible, and influential, then you’ve made it. It’s
 only a matter of time that will get you up the ladder.
 
+Related Readings
+================
+
+1. `An Experience in Contributing to Open Source`_ by Alex Vaccaro
+
+.. _An Experience in Contributing to Open Source: http://stillflowing.net/2014/12/21/an-experience-in-contributing-to-open-source/
 .. _Dunbar’s number: http://en.wikipedia.org/wiki/Dunbar's_number
