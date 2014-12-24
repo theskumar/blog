@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
-import os
+# import os
 
 AUTHOR = u'Saurabh Kumar'
 SITENAME = u'Saurabh Kumar'
@@ -13,6 +13,8 @@ DEFAULT_LANG = u'en'
 TYPOGRIFY = True
 
 THEME = "theme/pelican-svbtle-responsive"
+
+MD_EXTENSIONS = ['headerid(level=3)', 'toc', 'extra', 'admonition', 'nl2br']
 
 # FILES_TO_COPY = (('extra/CNAME', 'CNAME'),)
 
