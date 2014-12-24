@@ -23,4 +23,6 @@ env:
   - OUTPUTDIR: output
   - GH_REF: github.com/theskumar/blog.git
   - secure: AaAdwcrdSwHJ0jZSSNr7dNL6xO9l68tzEBz0be+M4zli60As+w/r+H+YD+RnhQa7GwNC/qAaAQx2Yciw1FRiioQVjE7UVQMNxNDR+3/Kt4dpHpWKH3yXEf9KQKcJJERp49/rXFKOhsMK/isJA3dMkGaHCJVKtdYyjGVcwVbuJpg=
-after_success: bash travis_deploy.sh
+after_success:
+- bash travis_deploy.sh
+- linkchecker http://saurabh-kumar.com/ --check-extern

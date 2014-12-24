@@ -13,3 +13,6 @@ pelican-minify==0.7
 ## Development
 fabric
 ghp-import==0.4.1
+
+# Testing
+LinkChecker==9.3
