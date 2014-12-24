@@ -26,7 +26,7 @@ python 3 [#]_ which means it has ``random`` as it default value.
 References
 ----------
 
-.. _Hash DoS: http://www.purehacking.com/blogs/josh-zlatin/introduction-to-hash-dos-attacks
-.. [#] https://www.nruns.com/_downloads/advisory28122011.pdf
+.. _Hash DoS: https://web.archive.org/web/20131016035929/http://www.purehacking.com/blogs/josh-zlatin/introduction-to-hash-dos-attacks
+.. [#] https://web.archive.org/web/20140606214923/https://www.nruns.com/_downloads/advisory28122011.pdf
 .. [#] http://docs.python.org/2/using/cmdline.html#envvar-PYTHONHASHSEED
 .. [#] http://docs.python.org/3/using/cmdline.html#envvar-PYTHONHASHSEED

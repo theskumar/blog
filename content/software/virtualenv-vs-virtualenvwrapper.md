@@ -62,4 +62,4 @@ Summarizing:
 Cheers,  
 Saurabh
 
-  [1]: http://www.virtualenv.org/en/latest/virtualenv.html
+  [1]: https://virtualenv.readthedocs.org/en/latest/
