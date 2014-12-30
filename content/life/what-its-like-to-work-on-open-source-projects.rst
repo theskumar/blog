@@ -206,6 +206,8 @@ Related Readings
 ================
 
 1. `An Experience in Contributing to Open Source`_ by Alex Vaccaro
+2. `Software engineers should write`_ by Shubhro Saha
 
 .. _An Experience in Contributing to Open Source: http://stillflowing.net/2014/12/21/an-experience-in-contributing-to-open-source/
 .. _Dunbar’s number: http://en.wikipedia.org/wiki/Dunbar's_number
+.. _:http://www.shubhro.com/2014/12/27/software-engineers-should-write/
