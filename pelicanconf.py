@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 
 AUTHOR = u'Saurabh Kumar'
 SITENAME = u'Saurabh Kumar'
-SITEURL = ''
+SITEURL = 'http://localhost:8000/'
 TAGLINE = u'Thoughts and Writings'
 TIMEZONE = 'Asia/Kolkata'
 
@@ -24,7 +24,7 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
 # Blogroll
-LINKS =  ()
+LINKS = ()
 
 USER_LOGO_URL = 'https://1.gravatar.com/avatar/fc974e2829eac6e3512a9d7f82e04723?s=160'
 TWITTER_USERNAME = '_theskumar'

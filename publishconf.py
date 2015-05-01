@@ -7,10 +7,12 @@ from __future__ import unicode_literals
 
 import os
 import sys
-sys.path.append(os.curdir)
-from pelicanconf import *
 
-SITEURL = 'http://saurabh-kumar.com/blog'
+from pelicanconf import *  # noqa
+
+sys.path.append(os.curdir)
+
+SITEURL = 'https://saurabh-kumar.com/blog'
 RELATIVE_URLS = True
 
 FEED_ALL_ATOM = 'feeds/all.atom.xml'
@@ -18,14 +20,12 @@ CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
 
 DELETE_OUTPUT_DIRECTORY = True
 
-
 # Following items are often useful when publishing
 
 DISQUS_SITENAME = "saurabhkumar"
 GOOGLE_ANALYTICS = "UA-26681217-2"
 COPY_TEXT_PLUS = True
 
-
 PLUGINS = [
-    'minify', # https://github.com/rdegges/pelican-minify
+    'minify',  # https://github.com/rdegges/pelican-minify
 ]
