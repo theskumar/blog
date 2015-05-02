@@ -14,6 +14,11 @@ TYPOGRIFY = True
 
 THEME = "theme/pelican-svbtle-responsive"
 
+PLUGINS = [
+    'pelican_commonmark',  # https://github.com/theskumar/pelican-commonmark
+]
+
+
 MD_EXTENSIONS = ['headerid(level=3)', 'toc', 'extra', 'admonition', 'nl2br']
 
 # FILES_TO_COPY = (('extra/CNAME', 'CNAME'),)
