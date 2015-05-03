@@ -5,9 +5,7 @@ Tags: shell, python, virtualenv
 Category: software
 Summary: This post discusses if given the choice between virtualenv and virtualenvwrapper, what you should choose for working on a project and why?
 
-[TOC]
-
-## Intro
+# Intro
 
 **[virtualenv]** is a tool to create isolated Python environments. It's core advantage is you can manage different version of python libraries in your different projects.
 
