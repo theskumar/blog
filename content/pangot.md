@@ -7,7 +7,7 @@ Summary: Car-Bike-Foot-Fun
 Status: draft
 featured_image: https://scontent-cdg.xx.fbcdn.net/hphotos-xft1/t31.0-8/10604491_10153364993720116_3352139664439683014_o.jpg
 
-## LANDSCAPE OF PANGOT VILLAGE
+## Landscape of Pangot
 
 Didn’t sleep, started assembling the cycles, mounted on car and we rolled at 4:00 am
 
@@ -18,7 +18,7 @@ Didn’t sleep, started assembling the cycles, mounted on car and we rolled at 4
 
 </div>
 
-## ONE FINE MORNING
+## One Fine Evening
 
 
 
@@ -55,7 +55,6 @@ On the way to Nanital, we took a pit-stop at the maggi point. Took out our bike.
 ![a](https://scontent-cdg.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11130375_10153240052881057_8992308798350553938_o.jpg)
 
 </div>
-
 
 ## Food
 
