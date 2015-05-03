@@ -4,7 +4,6 @@ Date: 2015-04-21 10:43
 Category: travel  
 Tags: Adventures, Personal  
 Summary: Car-Bike-Foot-Fun
-Status: draft
 featured_image: https://scontent-cdg.xx.fbcdn.net/hphotos-xft1/t31.0-8/10604491_10153364993720116_3352139664439683014_o.jpg
 
 ## LANDSCAPE OF PANGOT VILLAGE
