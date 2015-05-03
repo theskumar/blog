@@ -2,19 +2,25 @@ Title: Weekend in Pangot
 Slug: pangot
 Date: 2015-04-21 10:43  
 Category: travel  
-Tags: photography, pangot  
-Summary: Weekend escape to Pangot.
+Tags: Adventures, Personal  
+Summary: Car-Bike-Foot-Fun
 Status: draft
-featured_image: https://scontent-cdg.xx.fbcdn.net/hphotos-xta1/t31.0-8/11128809_10153236487426057_7836914293856395512_o.jpg
+featured_image: https://scontent-cdg.xx.fbcdn.net/hphotos-xft1/t31.0-8/10604491_10153364993720116_3352139664439683014_o.jpg
 
-## Day1
+## LANDSCAPE OF PANGOT VILLAGE
+
+Didn’t sleep, started assembling the cycles, mounted on car and we rolled at 4:00 am
 
 <div class="gallery">
-    
+
 ![hands](https://scontent-cdg.xx.fbcdn.net/hphotos-xpa1/t31.0-8/11077013_10153236525796057_361240711555960077_o.jpg)
 ![hands](https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xpf1/t31.0-8/10985318_10153236527496057_531354141061947347_o.jpg)
 
 </div>
+
+## ONE FINE MORNING
+
+
 
 <div class='gallery'>
 
@@ -24,7 +30,7 @@ featured_image: https://scontent-cdg.xx.fbcdn.net/hphotos-xta1/t31.0-8/11128809_
 
 </div>
 
-# Maggi and Masti
+## Maggi and Masti
 
 On the way to Nanital, we took a pit-stop at the maggi point. Took out our bike.
 
@@ -51,7 +57,7 @@ On the way to Nanital, we took a pit-stop at the maggi point. Took out our bike.
 </div>
 
 
-# Food
+## Food
 
 <div class='gallery 2'>
 
@@ -62,4 +68,8 @@ On the way to Nanital, we took a pit-stop at the maggi point. Took out our bike.
 
 ## Beautiful Evening
 
+<div class="full">
+
 ![a](https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xfp1/t31.0-8/11053335_10153236515741057_8869035928657423064_o.jpg)
+
+</div>
