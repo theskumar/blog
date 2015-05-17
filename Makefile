@@ -25,6 +25,7 @@ help:
 	@echo '                                                                       '
 	@echo 'Usage:                                                                 '
 	@echo '   make html                        (re)generate the web site          '
+	@echo '   make setup                       Install dev dependencies          '
 	@echo '   make clean                       remove the generated files         '
 	@echo '   make regenerate                  regenerate files upon modification '
 	@echo '   make publish                     generate using production settings '
@@ -39,6 +40,10 @@ help:
 	@echo '   github                           upload the web site via gh-pages   '
 	@echo '                                                                       '
 
+
+setup:
+	pip install -r requirements.txt
+	cd ./theme/pelican-svbtle-responsive/ && npm install
 
 html: clean $(OUTPUTDIR)/index.html
 
