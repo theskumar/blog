@@ -86,9 +86,14 @@ $ py.test
 1. [pytest.org][pytest]
 2. [Testing Your Code - Python Guide][python-guide-testing] - by Kenneth Reitz
 
-Got questions/suggestion, write in the comment below, if you whant to fix/improve this writeup edit it [here][edit-url] ;). 
+Got questions/suggestion, write in the comment below.
 
+[Edit this][edit-url] | [Changelog/Contributors][changelog]
+
+---
+
+[edit-url]: https://github.com/theskumar/blog/edit/master/content/software/testing.md
+[changelog]: https://github.com/theskumar/blog/commits/master/content/software/testing.md
 [pytest]: http://pytest.org
 [python-guide-testing]: http://docs.python-guide.org/en/latest/writing/tests/
-[edit-url]: https://github.com/theskumar/blog/edit/master/content/software/testing.md
 [zen]: https://www.python.org/dev/peps/pep-0020/
