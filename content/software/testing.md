@@ -14,7 +14,7 @@ The idea is here is to introduce you the world of testing in software industry a
 
 Testing in it's very basic terms means, __"See if something is working"__ and there are many ways of doing it. Some do by trying things in a controlled environment, some do out in the world live, some ask someone else to do it for them. In software industry, testing almost the same thing. 
 
-Consider software project analogous to your dream house building project. In general, you plan for it, design it, hire people to get doing things and then in general you'll not test it while you are developing it! Once developed, you'll show it to someone, get it approved. Then you either sell it to someone or live in the same house. 
+__Consider software project analogous to your dream house building project__. In general, you plan for it, design it, hire people to get doing things and then in general you'll not test it while you are developing it! Once developed, you'll show it to someone, get it approved. Then you either sell it to someone or live in the same house. 
 
 If you live in that same house, you'll probably be able to extend/modify the house as per your need as because you know how you have built it. But the other guy who purchased your house, it's hard and or probably impossible to modify or extend it because he has no clues when the house will fall apart, unless you provide a written specs of the house.
 
@@ -25,6 +25,13 @@ Software testing is very much how it is with house testing, it's useful, most pe
 # Why testing is important?
 
 > In softwares industry, a bad code is acceptable, not a wrong code.
+
+- Know your code works
+- Save time
+- Better code
+- It help a software live longer
+- It makes everyone happy, removing fear
+- “Debugging is hard, testing is easy”
 
 # When to test code?
 
