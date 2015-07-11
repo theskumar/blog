@@ -10,11 +10,17 @@ The idea is here is to introduce you the world of testing in software industry a
 <iframe src="https://docs.google.com/presentation/embed?id=1yesEE3ScAsJ3L8AkNMTvEZfOcblBkyVVu1JG0KeCG-4&amp;start=false&amp;loop=false&amp; frameborder="0" width="100%" height="378" style="border:0" allowfullscreen=true></iframe>
 <a href="https://docs.google.com/presentation/d/1yesEE3ScAsJ3L8AkNMTvEZfOcblBkyVVu1JG0KeCG-4/pub" target="_blank"><small>Open in new tab</small></a>
 
-# What is Testing?
+# What is Software Testing?
 
-Testing in it's very basic terms means, __"See if something is working"__ and there are many ways of doing it. Some do by trying things in a controlled environment, some do out in the world live, some ask someone else to do it for them. 
+Testing in it's very basic terms means, __"See if something is working"__ and there are many ways of doing it. Some do by trying things in a controlled environment, some do out in the world live, some ask someone else to do it for them. In software industry, testing almost the same thing. 
 
-In software industry, testing almost the same thing.
+Consider software project analogous to your dream house building project. In general, you plan for it, design it, hire people to get doing things and then in general you'll not test it while you are developing it! Once developed, you'll show it to someone, get it approved. Then you either sell it to someone or live in the same house. 
+
+If you live in that same house, you'll probably be able to extend/modify the house as per your need as because you know how you have built it. But the other guy who purchased your house, it's hard and or probably impossible to modify or extend it because he has no clues when the house will fall apart, unless you provide a written specs of the house.
+
+Whatever the do with the house, as time passes it becomes increasingly difficult to modify/extend/maintain that house, unless you have a repeatable way to testing that your house for it's capabilities. 
+
+Software testing is very much how it is with house testing, it's useful, most people don't do it, it's costly and hard to it and you feel it's increasing need as time passes. 
 
 # Why testing is important?
 
@@ -35,7 +41,7 @@ The reason being, if you don't 1) probably you'll never do it 2) the value of th
 
 > Tools are you friend when you testing something, keep them handy and sharp.
 
-### Testing Tools
+## Testing Tools
 
 If you are able to write or speak in a particular lauguage, it become very easy to test or tell it to someone what to test. Now, if you have a better tools, it just becomes a breeze to test anything.
 
