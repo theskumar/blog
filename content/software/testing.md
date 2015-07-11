@@ -46,7 +46,7 @@ The reason being, if you don't 1) probably you'll never do it 2) the value of th
 
 # How to test?
 
-> Tools are you friend when you testing something, keep them handy and sharp.
+> Tools are your friend, keep them handy and sharp.
 
 ## Testing Tools
 
@@ -84,7 +84,8 @@ $ py.test
 # Further Reading:
 
 1. [pytest.org][pytest]
-2. [Testing Your Code - Python Guide][python-guide-testing] - by Kenneth Reitz
+2. [Testing Your Code - Python Guide][python-guide-testing] - by [Kenneth Reitz]
+3. [Getting Started Testing] - by [Ned Batchelder]
 
 Got questions/suggestion, write in the comment below.
 
@@ -97,3 +98,6 @@ Got questions/suggestion, write in the comment below.
 [pytest]: http://pytest.org
 [python-guide-testing]: http://docs.python-guide.org/en/latest/writing/tests/
 [zen]: https://www.python.org/dev/peps/pep-0020/
+[Getting Started Testing]: http://bit.ly/pytest0
+[Ned Batchelder]: http://nedbatchelder.com/site/aboutned.html
+[Kenneth Reitz]: 
