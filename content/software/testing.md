@@ -100,4 +100,4 @@ Got questions/suggestion, write in the comment below.
 [zen]: https://www.python.org/dev/peps/pep-0020/
 [Getting Started Testing]: http://bit.ly/pytest0
 [Ned Batchelder]: http://nedbatchelder.com/site/aboutned.html
-[Kenneth Reitz]: 
+[Kenneth Reitz]: http://www.kennethreitz.org/
