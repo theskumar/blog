@@ -5,14 +5,14 @@ Tags: testing, pytest, presentation, software, python
 Category: software
 Summary: Getting familiar with testing in software industry.
 
-The idea is here is to introduce you the world of testing in software industry and provide some guidelines and things to keep in mind while you are doing so.
+The idea is here is to introduce you to the world of testing in software industry and provide some guidelines and things to keep in mind while you are doing so.
 
 <iframe src="https://docs.google.com/presentation/embed?id=1yesEE3ScAsJ3L8AkNMTvEZfOcblBkyVVu1JG0KeCG-4&amp;start=false&amp;loop=false&amp; frameborder="0" width="100%" height="378" style="border:0" allowfullscreen=true></iframe>
 <a href="https://docs.google.com/presentation/d/1yesEE3ScAsJ3L8AkNMTvEZfOcblBkyVVu1JG0KeCG-4/pub" target="_blank"><small>Open in new tab</small></a>
 
 # What is Software Testing?
 
-Testing in it's very basic terms means, __"See if something is working"__ and there are many ways of doing it. Some do by trying things in a controlled environment, some do out in the world live, some ask someone else to do it for them. In software industry, testing almost the same thing. 
+Testing in it's very basic terms means, __"check if something is working as espected"__. There are many ways of doing it. Some do by it by hand, some peole automate it, some do it in controlled environment, some do it in in production, some do it themself, some ask someone else to do it for them. In software industry, testing almost the same thing. 
 
 __Consider software project analogous to your dream house building project__. In general, you plan for it, design it, hire people to get doing things and then in general you'll not test it while you are developing it! Once developed, you'll show it to someone, get it approved. Then you either sell it to someone or live in the same house. 
 
