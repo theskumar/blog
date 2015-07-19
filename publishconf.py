@@ -27,7 +27,3 @@ DELETE_OUTPUT_DIRECTORY = True
 DISQUS_SITENAME = "saurabhkumar"
 GOOGLE_ANALYTICS = "UA-26681217-2"
 COPY_TEXT_PLUS = True
-
-PLUGINS += [
-    'minify',  # https://github.com/rdegges/pelican-minify
-]

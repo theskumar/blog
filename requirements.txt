@@ -8,7 +8,6 @@ typogrify==2.0.7
 
 
 ## plugins
-pelican-minify==0.7
 pelican-commonmark
 
 ## Development
