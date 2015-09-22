@@ -211,3 +211,4 @@ Related Readings
 .. _An Experience in Contributing to Open Source: http://stillflowing.net/2014/12/21/an-experience-in-contributing-to-open-source/
 .. _Dunbar’s number: http://en.wikipedia.org/wiki/Dunbar's_number
 .. _Software engineers should write: http://www.shubhro.com/2014/12/27/software-engineers-should-write/
+.. _Ten Rules for Open Source Success: http://hintjens.com/blog:95
