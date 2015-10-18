@@ -7,6 +7,8 @@ Summary: A list of different django framework related links and resources. Recom
 
 The best place to get started with [Django][1] is to explore it's official site and then dig into it's [source code][2] on Github, and then ask questions either on [stack overflow][3] or it's user's [mailing-list][4]. And for obvious reasons, you'll find Google your friend at every step.
 
+![Django request-response cycle](https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xta1/t31.0-8/12080375_10154236046688098_3540696576391451460_o.jpg)
+
 Here is a list of my personal recommendation and references to the some of resources, I found useful and interesting.
 
 ## Books & Magazines
