@@ -54,7 +54,7 @@ $
 __Tip__: If you like to include the name of directory in the prompt also, instead of just `(venv)`, you can use the following alias instead:
 
 ```shell
-alias sv='source venv/bin/activate; export PS1="(${PWD##*/}-venv)$_OLD_VIRTUAL_PS1"'
+alias sv='source venv/bin/activate && export PS1="(${PWD##*/}-venv)$_OLD_VIRTUAL_PS1"'
 ```
 
 ---
@@ -76,6 +76,7 @@ If you use [sublime text editor][sublime-text], it's as easy as pressing `cmd + 
 __Edits__
 
 - Add enhancemnet to alias `sv`, based on @chadhs suggestion
+- Use `&&` in `sv` alias so that PS is updated only when command succeed. Thanks @petrjoachim.
 
 [virtualenv]: https://virtualenv.readthedocs.org/en/latest/
 [Virtualenvwrapper]: https://virtualenvwrapper.readthedocs.org/
