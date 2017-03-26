@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/theskumar/blog.png?label=ready&title=Ready)](https://waffle.io/theskumar/blog)
 # My Blog 
 
 [![Requirements Status](https://requires.io/github/theskumar/blog/requirements.png?branch=master)](https://requires.io/github/theskumar/blog/requirements/?branch=master) [![Build Status](https://travis-ci.org/theskumar/blog.svg?branch=master)](https://travis-ci.org/theskumar/blog)
