@@ -3,6 +3,7 @@ Slug: bulk-redirect-with-nginx
 Date: 2017-09-25 16:43
 Tags: devops, nginx
 Category: software
+featured_image: https://images.unsplash.com/photo-1463267738627-d1a780134be7?dpr=1&auto=compress,format&fit=crop&w=1000&h=&q=80&cs=tinysrgb&crop=
 Summary: Walkthrough of how you can utilize the power of nginx to setup mass redirects of random urls on your server
 
 
