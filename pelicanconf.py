@@ -15,7 +15,7 @@ TYPOGRIFY = True
 THEME = "theme/pelican-svbtle-responsive"
 
 PLUGINS = [
-    'pelican_commonmark',  # https://github.com/theskumar/pelican-commonmark
+    # 'pelican_commonmark',  # https://github.com/theskumar/pelican-commonmark
 ]
 
 
