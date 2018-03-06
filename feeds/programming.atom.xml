@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Saurabh Kumar</title><link href="https://saurabh-kumar.com/blog/" rel="alternate"></link><link href="https://saurabh-kumar.com/blog/feeds/programming.atom.xml" rel="self"></link><id>https://saurabh-kumar.com/blog/</id><updated>2013-09-01T12:00:00+05:30</updated><entry><title>Prevent Hash DoS in python</title><link href="https://saurabh-kumar.com/blog/hash-dos-in-python.html" rel="alternate"></link><published>2013-09-01T12:00:00+05:30</published><updated>2013-09-01T12:00:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2013-09-01:blog/hash-dos-in-python.html</id><summary type="html">&lt;blockquote class="twitter-tweet"&gt;&lt;p&gt;$ export &lt;span class="caps"&gt;PYTHONHASHSEED&lt;/span&gt;=random &amp;#10;&amp;#10;Makes hashes of types unpredictable across &lt;a href="https://twitter.com/search?q=%23python&amp;amp;src=hash"&gt;#python&lt;/a&gt; invocations, making your app more secure to &lt;span class="caps"&gt;DOS&lt;/span&gt;&amp;nbsp;attacks.&lt;/p&gt;&amp;mdash; Anand B Pillai (@pythonhacker) &lt;a href="https://twitter.com/pythonhacker/statuses/375671280394989568"&gt;September 5, 2013&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src="//platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;&lt;p&gt;Denial of Service through hash table multi-collisions or &lt;a class="reference external" href="https://web.archive.org/web/20131016035929/http://www.purehacking.com/blogs/josh-zlatin/introduction-to-hash-dos-attacks"&gt;Hash DoS&lt;/a&gt; has been
+first reported in 28-Dec-2011 &lt;a class="footnote-reference" href="#id4" id="id1"&gt;[1]&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Python and Ruby are partially vulnerable, depending on version or whether the server
+running the code is a 32 bit or 64 bit machine. Python 2 by default does not provide
+random value for &lt;tt class="docutils literal"&gt;&lt;span class="caps"&gt;PYTHONHASHSEED&lt;/span&gt;&lt;/tt&gt; &lt;a class="footnote-reference" href="#id5" id="id2"&gt;[2]&lt;/a&gt; though it&amp;#8217;s behaviour is changed in
+python 3 &lt;a class="footnote-reference" href="#id6" id="id3"&gt;[3]&lt;/a&gt; which means it has &lt;tt class="docutils literal"&gt;random&lt;/tt&gt; as it default&amp;nbsp;value.&lt;/p&gt;
+&lt;div class="section" id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;table class="docutils footnote" frame="void" id="id4" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://web.archive.org/web/20140606214923/https://www.nruns.com/_downloads/advisory28122011.pdf"&gt;https://web.archive.org/web/20140606214923/https://www.nruns.com/_downloads/advisory28122011.pdf&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id5" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="http://docs.python.org/2/using/cmdline.html#envvar-PYTHONHASHSEED"&gt;http://docs.python.org/2/using/cmdline.html#envvar-&lt;span class="caps"&gt;PYTHONHASHSEED&lt;/span&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id6" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id3"&gt;[3]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="http://docs.python.org/3/using/cmdline.html#envvar-PYTHONHASHSEED"&gt;http://docs.python.org/3/using/cmdline.html#envvar-&lt;span class="caps"&gt;PYTHONHASHSEED&lt;/span&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+</summary><category term="python"></category><category term="security"></category></entry><entry><title>Django: Useful resource compilation</title><link href="https://saurabh-kumar.com/blog/django.html" rel="alternate"></link><published>2013-08-20T04:43:00+05:30</published><updated>2013-08-20T04:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2013-08-20:blog/django.html</id><summary type="html">&lt;p&gt;The best place to get started with &lt;a href="https://www.djangoproject.com/"&gt;Django&lt;/a&gt; is to explore it&amp;#8217;s official site and then dig into it&amp;#8217;s &lt;a href="https://github.com/django/django"&gt;source code&lt;/a&gt; on Github, and then ask questions either on &lt;a href="http://stackoverflow.com/questions/tagged/django"&gt;stack overflow&lt;/a&gt; or it&amp;#8217;s user&amp;#8217;s &lt;a href="https://groups.google.com/forum/?fromgroups#!forum/django-users"&gt;mailing-list&lt;/a&gt;. And for obvious reasons, you&amp;#8217;ll find Google your friend at every&amp;nbsp;step.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Django request-response cycle" src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xta1/t31.0-8/12080375_10154236046688098_3540696576391451460_o.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;Here is a list of my personal recommendation and references to the some of resources, I found useful and&amp;nbsp;interesting.&lt;/p&gt;
+&lt;h4 id="books-magazines"&gt;Books &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt;&amp;nbsp;Magazines&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.pythonweekly.com/"&gt;Python&amp;nbsp;Weekly&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://propython.com/"&gt;Pro&amp;nbsp;Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://django.2scoops.org/"&gt;Two scoops of&amp;nbsp;Django&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="articles"&gt;Articles&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://blog.etianen.com/blog/2013/06/08/django-querysets/"&gt;Using Django querysets effectively&lt;/a&gt; - Use of &lt;code&gt;.iterator()&lt;/code&gt; to make the database query&amp;nbsp;efficient.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://pydanny.com/core-concepts-django-modelforms.html"&gt;Core Concepts of Django&amp;nbsp;ModelForms&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://denibertovic.com/posts/celery-best-practices/"&gt;Celery Best Practices&lt;/a&gt; by&amp;nbsp;Deni&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="apps-libraries"&gt;Apps &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt;&amp;nbsp;Libraries&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://docs.celeryproject.org/en/latest/django/index.html"&gt;Celery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://docs.python-requests.org/en/latest/"&gt;Requests&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/tomchristie/django-rest-framework"&gt;Django Rest Framework&lt;/a&gt; - Awesome web-browseable Web &lt;span class="caps"&gt;REST&lt;/span&gt;&amp;nbsp;APIs&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://haystacksearch.org/"&gt;Haystack&lt;/a&gt; - modular search for&amp;nbsp;django.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/Adys/django-push-notifications"&gt;django-push-notifications&lt;/a&gt; - Send push notifications to mobile devices through &lt;span class="caps"&gt;GCM&lt;/span&gt; or &lt;span class="caps"&gt;APNS&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://mezzanine.jupo.org/"&gt;Mezzanine&lt;/a&gt; - &lt;span class="caps"&gt;CMS&lt;/span&gt; Based on&amp;nbsp;Django&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="sysadmin-deployment"&gt;Sysadmin/&amp;nbsp;Deployment&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://newrelic.com/"&gt;Newrelic&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://docs.fabfile.org/en/1.6/"&gt;Fabric&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/ansible/ansible"&gt;Ansible&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getsentry.com"&gt;Sentry&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;If you have reached till here and would like to explore more checkout &lt;a href="https://github.com/stars/theskumar?direction=desc&amp;amp;language=python&amp;amp;q=&amp;amp;sort=stars"&gt;my stared python repo list&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="caps"&gt;EDITS&lt;/span&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;There is an &lt;a href="https://github.com/rosarior/awesome-django#awesome-django"&gt;awesome-django&lt;/a&gt; project on github that has curated list of awesome Django apps and projects, that you should definetely&amp;nbsp;check-out. &lt;/li&gt;
+&lt;/ul&gt;</summary><category term="python"></category><category term="django"></category></entry><entry><title>What it’s like to work on Open Source Projects</title><link href="https://saurabh-kumar.com/blog/working-on-open-source-project.html" rel="alternate"></link><published>2013-08-20T04:43:00+05:30</published><updated>2013-08-20T04:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2013-08-20:blog/working-on-open-source-project.html</id><summary type="html">&lt;p&gt;You’ll hear the word “open” a&amp;nbsp;lot.&lt;/p&gt;
+&lt;p&gt;Open means you can talk about your work publicly. Anyone from anywhere
+might pop in and comment on your work. You can pop in and comment on any
+other&amp;nbsp;project.&lt;/p&gt;
+&lt;p&gt;Open also means people won’t be telling you what to do very much, but
+rather expecting you to figure out how to contribute. Along with that,
+the org chart is never kept up to date, and is probably more of a dag or
+hypergraph than a tree. This is exciting and fun, but can also be
+challenging to&amp;nbsp;navigate.&lt;/p&gt;
+&lt;div class="section" id="becoming-effective"&gt;
+&lt;h2&gt;Becoming&amp;nbsp;Effective&lt;/h2&gt;
+&lt;p&gt;As a new employee, one of your first priorities is becoming effective at
+your basic job. For example, if you are on the &lt;span class="caps"&gt;JS&lt;/span&gt; engine team, your job
+is to fix bugs and add features. Fixing bugs is hard, so it will take a
+lot of practice and learning to become good at&amp;nbsp;it.&lt;/p&gt;
+&lt;p&gt;There are all kinds of new procedures, skills, and/or codebases to
+learn, but what’s special in open-source projects is that you need to
+learn how to decide what to work on. Even if you are producing
+top-quality code at maximum speed, the value of that code is still
+entirely dependent on how relevant the project&amp;nbsp;is.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-to-work-on"&gt;
+&lt;h2&gt;What to work&amp;nbsp;on&lt;/h2&gt;
+&lt;p&gt;It’s not a total free-for-all. You will probably get assignments. But
+the assignment may be very general, like &lt;strong&gt;“make &lt;span class="caps"&gt;GC&lt;/span&gt; not suck”&lt;/strong&gt;. So
+you’d need to figure out what that really means. And you’ll probably get
+way more assignments run past you than you could ever do. So even if you
+try to just do those, you’ll have to choose. And quite often assignments
+are more offered than, well,&amp;nbsp;assigned.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="why-dont-they-just-tell-people-what-to-do"&gt;
+&lt;h2&gt;Why don’t they just tell people what to&amp;nbsp;do?&lt;/h2&gt;
+&lt;p&gt;As for a open-source developer, one reason is that they are busy with
+all kinds of stuff, and they don’t really have time for that. But more
+importantly, they don’t know everything, so they’d really like your
+ideas and your help in making decisions. And most of all, they find that
+the results are far better when people choose their own projects–and
+choose things that they are fired up about, whether it’s because they’ll
+get to learn, they’ll get to feel badass, or for whatever reason it’s
+something important to them&amp;nbsp;personally.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="so-how-do-you-figure-out-what-to-do"&gt;
+&lt;h2&gt;So how do you figure out what to&amp;nbsp;do?&lt;/h2&gt;
+&lt;p&gt;In one word, &lt;strong&gt;listen&lt;/strong&gt;. Talk regularly with people in and around your
+area to find out what problems need solving, bugs need fixing,
+enhancements are needed. In two words, &lt;strong&gt;listen intelligently&lt;/strong&gt;. Simply
+aggregating everyone else’s opinion is &lt;span class="caps"&gt;OK&lt;/span&gt; to start with, but I’d really
+much rather see everyone else’s opinion blended with your own unique
+point of view. Plus you’ll want to pick out the projects that you
+currently have the skills to get traction on and that you’ll find
+interesting. And you’ll need to figure out who really knows what’s worth
+working on vs. who everyone else thinks knows what’s working on vs. who
+thinks they know what’s worth working on but really&amp;nbsp;doesn’t.&lt;/p&gt;
+&lt;p&gt;One lesson from my experience is that figuring out what to work on is
+pretty hard. So if your first few assignments seem to turn out not to be
+of much value, don’t sweat it. (Often new people are offered
+low-priority stuff or weird ideas so they can learn without blocking
+ongoing critical work.) Just keep talking, listening, trying things out,
+and&amp;nbsp;learning.&lt;/p&gt;
+&lt;p&gt;Also: watch out for tar pits. There are projects out there to work on
+that are ill-defined, or that are popular to talk about but not really
+useful, or that will have an ever-expanding scope, or that have been
+tried 3 times and have always failed. You want to work where you will
+have maximum impact, not minimum. So if you find yourself in one of
+these, call for help: get out or get someone to help you get&amp;nbsp;out.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="becoming-visible"&gt;
+&lt;h2&gt;Becoming&amp;nbsp;Visible&lt;/h2&gt;
+&lt;p&gt;I think visibility is important in pretty much any software company
+bigger than &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Dunbar's_number"&gt;Dunbar’s number&lt;/a&gt;, but in such a fluid environment, it’s
+even more important. If you’re after external rewards, your managers and
+peers need to know about the great stuff you’re doing. If you’re after
+getting to work on the big cool projects and such, people need to know
+who you are and what you can&amp;nbsp;do.&lt;/p&gt;
+&lt;p&gt;You don’t need to worry about becoming super-visible immediately, but
+you can start taking steps to improve your future visibility right&amp;nbsp;away:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;strong&gt;Starting a blog is an excellent thing to do.&lt;/strong&gt; You may think you
+don’t have much to write about. But you do: your work and your
+experiences at Mozilla. There is almost certainly someone out there
+who’s interested. I started this blog talking about abstruse aspects
+of program analysis, and even that found an&amp;nbsp;audience.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;Talking to people regularly in person or on &lt;span class="caps"&gt;IRC&lt;/span&gt; is also great, of
+course. “What are you working on” is a good conversation starter and
+likely to be&amp;nbsp;reciprocated.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;Asking people for help automatically lets them know what you’re
+working&amp;nbsp;on.&lt;/p&gt;
+&lt;p&gt;Helping other people gives them a chance to see what you can&amp;nbsp;do.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There are also of course all the mailing lists and newsgroups and
+Yammer. I have the sense that a lot of the talk on there is not that
+productive so I’m hesitant to recommend spending more time on them to a
+new person, but &lt;span class="caps"&gt;YMMV&lt;/span&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="being-visible"&gt;
+&lt;h2&gt;Being&amp;nbsp;Visible&lt;/h2&gt;
+&lt;p&gt;The common notion of visibility is mostly abouttelling other people
+about your accomplishments (which for us extends also to your
+capabilities), but because we are so open, there is another side, which
+is letting people see you&amp;nbsp;working.&lt;/p&gt;
+&lt;p&gt;We are supposed to be “all open and stuff”. It can be intimidating to
+work out in public where anyone could see you fail or criticize you. I
+highly recommend responding by embracing it. In Bugzilla, use the
+assignee field to show what you’re working on. Post half-baked design
+ideas before you start coding. Post WIPs (works in progress) to let
+people see your crappy incomplete code. If someone asks you to do
+something and you don’t have time or think it’s a bad idea, say so right&amp;nbsp;away.&lt;/p&gt;
+&lt;p&gt;The advantage of this is that you don’t have much to worry about. No
+one’s going to discover what you’ve been working on for the past 2
+months and criticize you for wasting your time, because they would have
+been able to give you feedback right away. No one’s going to complain
+you’re not working on their favorite bug, because they can either see
+that you are, or you’ve told them you’re not. If it’s all in the open,
+and no one’s complaining, it’s fair for you to think you’re on the right&amp;nbsp;track.&lt;/p&gt;
+&lt;p&gt;Just to make sure you don’t think I’m (totally) crazy, I should point
+out that there are times to be less open. When you’re working on a
+proposal to change procedures or do a crazy project, or a presentation,
+or something like that, it does make sense to get feedback from a small
+group before taking it public. And that is in fact &lt;span class="caps"&gt;OK&lt;/span&gt; around&amp;nbsp;here.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="becoming-influential"&gt;
+&lt;h2&gt;Becoming&amp;nbsp;Influential&lt;/h2&gt;
+&lt;p&gt;You probably have all kinds of ideas about how to make the web better,
+or the &lt;span class="caps"&gt;JS&lt;/span&gt; engine, or Bugzilla, or our review process. That’s&amp;nbsp;excellent.&lt;/p&gt;
+&lt;p&gt;But don’t be too surprised if at first most of your ideas are met with
+skepticism, misunderstanding, refusal, or are just ignored. There are
+way more ideas out there than there are people to work on them, so
+everyone already has 35 great ideas they’d love to try. They’d have to
+decide that your new idea is better than those 35 in order to think
+about it all that much. Or maybe they’ve already heard that idea and
+they rank it #67, so they’re not that motivated to think about it again.
+Getting ideas heard can be&amp;nbsp;hard.&lt;/p&gt;
+&lt;p&gt;But also, don’t be discouraged if your ideas don’t seem to move people
+very much. It doesn’t mean your ideas are bad. It doesn’t mean no one’s
+ever going to listen to them. It does mean that if you want to be heard
+you’re going to have to rise to the challenge and work at&amp;nbsp;it.&lt;/p&gt;
+&lt;p&gt;The easiest way to get more attention for your ideas is if you have
+“open source street cred”. If you are new, there is of course a good
+chance that you don’t have any yet. But as you become effective and
+visible, you will get that street cred and more chance to be&amp;nbsp;heard.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-to-do-in-the-meantime"&gt;
+&lt;h2&gt;What to do in the&amp;nbsp;meantime?&lt;/h2&gt;
+&lt;p&gt;I don’t have a recipe. I recommend just to keep trying. That’s also why
+I said not to get discouraged. You can try an idea on different people.
+Maybe the first 5 are not too interested but the 6th has time and wants
+to work on it. You can try it over time. Maybe when people first hear it
+is unfamiliar and weird, but after talking with you about it over time,
+they come to see its merits. You can write code or do some experiments
+to test the idea and show how it might work. You can change and refine
+the idea to see if different versions get more attention. If you keep
+trying and pay attention to what works and what doesn’t, you will gain
+skill in promoting your&amp;nbsp;ideas.&lt;/p&gt;
+&lt;p&gt;One thing I think is clearly effective in getting heard is service. If
+you help other people solve problems, make their jobs easier, or help
+them get their ideas heard and implemented, there’s a good chance
+they’ll be more inclined to listen to you and help you out. That can go
+a long way even before you have any street&amp;nbsp;cred.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;If you’re effective, visible, and influential, then you’ve made it. It’s
+only a matter of time that will get you up the&amp;nbsp;ladder.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="related-readings"&gt;
+&lt;h2&gt;Related&amp;nbsp;Readings&lt;/h2&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://stillflowing.net/2014/12/21/an-experience-in-contributing-to-open-source/"&gt;An Experience in Contributing to Open Source&lt;/a&gt; by Alex&amp;nbsp;Vaccaro&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.shubhro.com/2014/12/27/software-engineers-should-write/"&gt;Software engineers should write&lt;/a&gt; by Shubhro&amp;nbsp;Saha&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://hintjens.com/blog:95"&gt;Ten Rules for Open Source&amp;nbsp;Success&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</summary><category term="open-source"></category><category term="community"></category><category term="social"></category></entry></feed>

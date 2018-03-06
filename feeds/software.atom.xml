@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Saurabh Kumar</title><link href="https://saurabh-kumar.com/blog/" rel="alternate"></link><link href="https://saurabh-kumar.com/blog/feeds/software.atom.xml" rel="self"></link><id>https://saurabh-kumar.com/blog/</id><updated>2017-09-25T16:43:00+05:30</updated><entry><title>Bulk redirection with Nginx</title><link href="https://saurabh-kumar.com/blog/bulk-redirect-with-nginx.html" rel="alternate"></link><published>2017-09-25T16:43:00+05:30</published><updated>2017-09-25T16:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2017-09-25:blog/bulk-redirect-with-nginx.html</id><summary type="html">&lt;p&gt;In this post, I am going to talk about how you can setup a redirects on a server for many individual paths. It uses the hash&amp;nbsp;map&lt;/p&gt;
+&lt;h4 id="creating-files"&gt;Creating&amp;nbsp;files&lt;/h4&gt;
+&lt;p&gt;Create a file called &lt;code&gt;redirects-map.conf&lt;/code&gt;, each line of the file will represents a redirect rule. The format of line&amp;nbsp;is:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;old_location&amp;gt; &amp;lt;new_url&amp;gt;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;old_location&lt;/code&gt; can be specified in both regex or plan simple&amp;nbsp;path.&lt;/p&gt;
+&lt;p&gt;The regex version looks likes&amp;nbsp;this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;~^/showcase/(.*)?$ /projects/;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The plan simple location redirect will look&amp;nbsp;like:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/contact-success/ /contact;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So your &lt;code&gt;redirects-map.conf&lt;/code&gt; file should look&amp;nbsp;like:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/contact-success/ /contact;
+~^/showcase/(.*)?$ /projects/;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id="setting-up-nginx"&gt;Setting up&amp;nbsp;nginx&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Upload the &lt;code&gt;redirects-map.conf&lt;/code&gt; to your server at &lt;code&gt;/etc/nginx&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Add the following at the top of your nginx virtualhost file, which imports the file and creates a hash&amp;nbsp;map:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;map $uri $redirected_url {
+    default &amp;quot;none&amp;quot;;
+    include /etc/nginx/redirects-map.conf;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then in the &lt;code&gt;server&lt;/code&gt; block, write the following&amp;nbsp;rule:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# pre-defined redirects
+if ($redirected_url != &amp;quot;none&amp;quot;) {
+    rewrite ^ $redirected_url permanent;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now your virtualhost conf file should look&amp;nbsp;like:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;map $uri $redirected_url {
+    default &amp;quot;none&amp;quot;;
+    include /etc/nginx/redirects-map.conf;
+}
+
+server {
+    listen        443 ssl http2;
+    server_name   example.org;
+
+    # pre-defined redirects
+    if ($redirected_url != &amp;quot;none&amp;quot;) {
+        rewrite ^ $redirected_url permanent;
+    }
+
+    # rest of the rules
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Nginx has a limit on how big the redirects-map.conf can be, which is controlled via &lt;code&gt;map_hash_bucket_size&lt;/code&gt; variable. If you get the following error, &lt;code&gt;[emerg]: could not build the map_hash&lt;/code&gt;, you should increase the &lt;code&gt;map_hash_bucket_size&lt;/code&gt; to account for the filesize. Say your redirects-map.conf is 30Kb, you set the &lt;code&gt;map_hash_bucket_size&lt;/code&gt; variable in the &lt;code&gt;http&lt;/code&gt; block of &lt;code&gt;nginx.conf&lt;/code&gt; to &lt;code&gt;30720&lt;/code&gt;;&lt;/p&gt;</summary><category term="devops"></category><category term="nginx"></category></entry><entry><title>Testing (Software Development)</title><link href="https://saurabh-kumar.com/blog/testing.html" rel="alternate"></link><published>2015-06-16T01:03:10+05:30</published><updated>2015-06-16T01:03:10+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2015-06-16:blog/testing.html</id><summary type="html">&lt;p&gt;The idea here is to introduce you to the world of testing in software industry and provide some guidelines and things to keep in mind while you are doing&amp;nbsp;so.&lt;/p&gt;
+&lt;iframe src="https://docs.google.com/presentation/embed?id=1yesEE3ScAsJ3L8AkNMTvEZfOcblBkyVVu1JG0KeCG-4&amp;amp;start=false&amp;amp;loop=false&amp;amp; frameborder="0" width="100%" height="378" style="border:0" allowfullscreen=true&gt;&lt;/iframe&gt;
+
+&lt;p&gt;&lt;a href="https://docs.google.com/presentation/d/1yesEE3ScAsJ3L8AkNMTvEZfOcblBkyVVu1JG0KeCG-4/pub" target="_blank"&gt;&lt;small&gt;Open in new tab&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="what-is-software-testing"&gt;What is Software&amp;nbsp;Testing?&lt;/h3&gt;
+&lt;p&gt;Testing in it&amp;#8217;s very basic terms, means &lt;strong&gt;&amp;#8220;check if something is working as espected&amp;#8221;&lt;/strong&gt;. There are many ways of doing it. Some do by it by hand, some peole automate it, some do it in controlled environment, some do it in in production, some do it themself, some ask someone else to do it for them. In software industry, testing is almost the same&amp;nbsp;thing. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Consider software project analogous to your dream house building project&lt;/strong&gt;. In general, you plan for it, design it, hire people to get doing things and then in general you&amp;#8217;ll not test it while you are developing it! Once developed, you&amp;#8217;ll show it to someone, get it approved. Then you either sell it to someone or live in the same&amp;nbsp;house. &lt;/p&gt;
+&lt;p&gt;If you live in that same house, you will, probably, be able to extend or modify the house as per your needs because you know how you have built it. But the other guy who purchased your house, it&amp;#8217;s quite hard to modify or extend it, because he has no clues when the house will fall apart, unless you provide a written specs of the&amp;nbsp;house.&lt;/p&gt;
+&lt;p&gt;Whatever you do with the house, as time passes it becomes increasingly difficult to modify/extend/maintain that house, unless you have an efficient and repeatable way of testing it&amp;#8217;s&amp;nbsp;capabilities.&lt;/p&gt;
+&lt;p&gt;Software testing is very much, what&amp;#8217;s the case with testing a house. It&amp;#8217;s useful, most people don&amp;#8217;t do it, it&amp;#8217;s costly and hard to it and you feel it&amp;#8217;s increasing need as time&amp;nbsp;passes. &lt;/p&gt;
+&lt;h3 id="why-testing-is-important"&gt;Why testing is&amp;nbsp;important?&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In softwares industry, a bad code is acceptable, not a wrong&amp;nbsp;code.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Know your code&amp;nbsp;works&lt;/li&gt;
+&lt;li&gt;Save&amp;nbsp;time&lt;/li&gt;
+&lt;li&gt;Better&amp;nbsp;code&lt;/li&gt;
+&lt;li&gt;It help a software live&amp;nbsp;longer&lt;/li&gt;
+&lt;li&gt;It makes everyone happy, removing&amp;nbsp;fear&lt;/li&gt;
+&lt;li&gt;“Debugging is hard, testing is&amp;nbsp;easy”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="when-to-test-code"&gt;When to test&amp;nbsp;code?&lt;/h3&gt;
+&lt;p&gt;As with&amp;nbsp;anything, &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Softwares must be tested, &lt;em&gt;as soon as possible&lt;/em&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The reason being, if you don&amp;#8217;t 1) probably you&amp;#8217;ll never do it 2) the value of that test decreases as much as you delay&amp;nbsp;it.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Now is better than never.&lt;br /&gt;
+&amp;#8212; &lt;a href="https://www.python.org/dev/peps/pep-0020/"&gt;Zen of Python, &lt;span class="caps"&gt;PEP20&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="how-to-test"&gt;How to&amp;nbsp;test?&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tools are your friend, keep them handy and&amp;nbsp;sharp.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="testing-tools"&gt;Testing&amp;nbsp;Tools&lt;/h4&gt;
+&lt;p&gt;If you are able to write or speak in a particular lauguage, it become very easy to test or tell it to someone what to test. Now, if you have a better tools, it just becomes a breeze to test&amp;nbsp;anything.&lt;/p&gt;
+&lt;p&gt;While testing, the tools can be categorized in two catergories:&lt;br /&gt;
+1. Tools that help in discovering, run and cleaning up a test (pytest, unittest, nose, tox, DjangoTestRunner, etc.)&lt;br /&gt;
+2. Tools you can use inside your test code (mock, freezegun,&amp;nbsp;responses)&lt;/p&gt;
+&lt;pre&gt;&lt;code class="shell"&gt;$ pip install pytest
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class="python"&gt;# file: my_utils.py
+def is_prime(num):
+    ## Do something here and return true or false
+    return True
+
+
+# file: test_my_utils.py
+from my_utils import is_prime
+
+def test_is_prime():
+    assert is_prime(2) is True
+    assert is_prime(43) is True
+    assert is_prime(&amp;quot;abc&amp;quot;) is False
+    assert is_prime(10) is False
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class="shell"&gt;$ py.test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id="further-reading"&gt;Further&amp;nbsp;Reading:&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="http://pytest.org"&gt;pytest.org&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://docs.python-guide.org/en/latest/writing/tests/"&gt;Testing Your Code - Python Guide&lt;/a&gt; - by &lt;a href="http://www.kennethreitz.org/"&gt;Kenneth&amp;nbsp;Reitz&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://bit.ly/pytest0"&gt;Getting Started Testing&lt;/a&gt; - by &lt;a href="http://nedbatchelder.com/site/aboutned.html"&gt;Ned&amp;nbsp;Batchelder&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Got questions/suggestion, write in the comment&amp;nbsp;below.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/theskumar/blog/edit/master/content/software/testing.md"&gt;Edit this&lt;/a&gt; | &lt;a href="https://github.com/theskumar/blog/commits/master/content/software/testing.md"&gt;Changelog/Contributors&lt;/a&gt;&lt;/p&gt;
+&lt;hr /&gt;</summary><category term="testing"></category><category term="pytest"></category><category term="presentation"></category><category term="software"></category><category term="python"></category></entry><entry><title>Virtualenv vs Virtualenvwrapper</title><link href="https://saurabh-kumar.com/blog/virtualenv-vs-virtualenvwrapper.html" rel="alternate"></link><published>2014-04-05T12:43:00+05:30</published><updated>2014-04-05T12:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2014-04-05:blog/virtualenv-vs-virtualenvwrapper.html</id><summary type="html">&lt;h3 id="intro"&gt;Intro&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="https://virtualenv.readthedocs.org/en/latest/"&gt;virtualenv&lt;/a&gt;&lt;/strong&gt; is a tool to create isolated Python environments. It&amp;#8217;s core advantage is you can manage different version of python libraries in your different&amp;nbsp;projects.&lt;/p&gt;
+&lt;p&gt;It works by creating a new folder on your harddisk and then copying basic python executable and libraries into it. It also add some scripts which can be used to activate the python environment. These activation scripts when executed, they change the &lt;code&gt;PYTHONPATH&lt;/code&gt; environment variable to point the folder it recides in. This is as simple as&amp;nbsp;that.&lt;/p&gt;
+&lt;p&gt;You can create the virtualenv folder anywhere you like as far you execute the activation scripts provided in that folder, your current shell session will pick up the correct version of&amp;nbsp;libraries.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="https://virtualenvwrapper.readthedocs.org/"&gt;Virtualenvwrapper&lt;/a&gt;&lt;/strong&gt; is a utility on top of &lt;code&gt;virtualenv&lt;/code&gt; that adds a bunch of utilities that allow the environment folders to be created at a single place, instead of spreading around&amp;nbsp;everywhere.&lt;/p&gt;
+&lt;h4 id="make-virtualenv-work-the-way-it-should"&gt;Make virtualenv work, the way it&amp;nbsp;should&lt;/h4&gt;
+&lt;p&gt;My preferred way to working around &lt;code&gt;virtualenv&lt;/code&gt; is to go the root folder of the project i&amp;#8217;m working on, create a virtualenv folder called &lt;code&gt;venv&lt;/code&gt;. You can name it anything you like as far as you stick to&amp;nbsp;it. &lt;/p&gt;
+&lt;pre&gt;&lt;code class="shell"&gt;cd ~/work/myproject
+virtualenv venv
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is the common name I use in every project. This gives advantage that I can add this folder in my global &lt;code&gt;.gitignore&lt;/code&gt; file.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="shell"&gt;# if you don't have it already.
+echo &amp;quot;venv/&amp;quot; &amp;gt;&amp;gt; ~/.gitignore  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now you can the following shell alias to your &lt;code&gt;~/.bashrc&lt;/code&gt; or &lt;code&gt;~/.zshrc&lt;/code&gt;, depending on your default&amp;nbsp;shell.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="shell"&gt;alias sv=&amp;quot;source venv/bin/activate&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now everytime you want to work on a project, that has virtualenv at &lt;code&gt;venv&lt;/code&gt; folder you can&amp;nbsp;run.&lt;/p&gt;
+&lt;pre&gt;
+$ sv 
+(venv) $ 
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;(venv)&lt;/code&gt; before your prompt indicates that you are in the virtualenv active in that folder. To deactivate, you can&amp;nbsp;run&lt;/p&gt;
+&lt;pre&gt;
+(venv) $ deactivate
+$
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Tip&lt;/strong&gt;: If you like to include the name of directory in the prompt also, instead of just &lt;code&gt;(venv)&lt;/code&gt;, you can use the following alias&amp;nbsp;instead:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="shell"&gt;alias sv='source venv/bin/activate &amp;amp;&amp;amp; export PS1=&amp;quot;(${PWD##*/}-venv)$_OLD_VIRTUAL_PS1&amp;quot;'
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;So having this setup makes me get over two cliams by &lt;strong&gt;virtualenvwrapper&lt;/strong&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It&amp;#8217;s easy to activate, here I just have to type &lt;code&gt;sv&lt;/code&gt;, after going to project folder, which anyways I&amp;#8217;ll be going&amp;nbsp;to.&lt;/li&gt;
+&lt;li&gt;Adding &lt;code&gt;venv/&lt;/code&gt; to your global gitignore will make sure it doesn&amp;#8217;t get included in git by&amp;nbsp;default.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This way you can avoid learning yet another tool or manage one less dependency. The best advantage is that all the source code of different libraries just lives by the side your project. In your favorite editor you can search globally for a term or&amp;nbsp;defination.&lt;/p&gt;
+&lt;p&gt;If you use &lt;a href="https://www.sublimetext.com/"&gt;sublime text editor&lt;/a&gt;, it&amp;#8217;s as easy as pressing &lt;code&gt;cmd + shift + f&lt;/code&gt; and type what you are looking for, or use &lt;code&gt;cmd + p&lt;/code&gt; to navigate to any file inside installed python&amp;nbsp;package.&lt;/p&gt;
+&lt;h4 id="summary"&gt;Summary&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;We learnt how to live without virtualenv&amp;nbsp;wrapper&lt;/li&gt;
+&lt;li&gt;having python libraries installed, alongside your project helps you search and go over code base&amp;nbsp;easily&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Edits&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Add enhancemnet to alias &lt;code&gt;sv&lt;/code&gt;, based on @chadhs&amp;nbsp;suggestion&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt; in &lt;code&gt;sv&lt;/code&gt; alias so that &lt;span class="caps"&gt;PS&lt;/span&gt; is updated only when command succeed. Thanks&amp;nbsp;@petrjoachim.&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="shell"></category><category term="python"></category><category term="virtualenv"></category></entry></feed>

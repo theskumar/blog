@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Saurabh Kumar</title><link href="https://saurabh-kumar.com/blog/" rel="alternate"></link><link href="https://saurabh-kumar.com/blog/feeds/general.atom.xml" rel="self"></link><id>https://saurabh-kumar.com/blog/</id><updated>2014-12-21T10:43:00+05:30</updated><entry><title>Videos – I love(d)</title><link href="https://saurabh-kumar.com/blog/videos-i-loved.html" rel="alternate"></link><published>2014-12-21T10:43:00+05:30</published><updated>2014-12-21T10:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2014-12-21:blog/videos-i-loved.html</id><summary type="html">&lt;h5 id="photography"&gt;Photography&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;There is only you and your camera. The limitations in your photography are in yourself, for what we see is what we are.&amp;#8221; – Ernst&amp;nbsp;Haas&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;iframe width="560" height="315" src="//www.youtube.com/embed/videoseries?list=PL049FEC5A96585CFF" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;h5 id="programming"&gt;Programming&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A programmer who subconsciously views himself as an artist will enjoy what he does and will do it better. - &lt;a href="http://www.paulgraham.com/knuth.html"&gt;Paul&amp;nbsp;Graham&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;I love programming using &lt;a href="http://python.org/"&gt;Python&lt;/a&gt;. Here is the youtube playlist that I maintain all thing related to&amp;nbsp;python.&lt;/p&gt;
+&lt;iframe width="560" height="315" src="//www.youtube.com/embed/videoseries?list=PLyeaeoHZ1GiQG3lumYao4uFvH18BbpD5l" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</summary><category term="photography"></category><category term="python"></category><category term="video"></category><category term="tutorials"></category></entry></feed>

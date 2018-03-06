@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" itemscope="" itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8" />
+
+  <title>How to setup an IRC channel properly · Saurabh Kumar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no">
+
+  <meta name="author" content="Saurabh Kumar">
+  <meta name="copyright" content="Saurabh Kumar">
+
+<meta name="description" content="If you need to create a new IRC channel for your community, how to set it up safely and securely.">
+<meta name="date" content="2015-06-16 01:03:10+05:30">
+
+<meta name="keywords" content="irc, communication, software, " />
+<link rel="author" href=https://plus.google.com/+SaurabhKumar0/>  <meta name="twitter:creator" content="@_theskumar">
+  <meta name="twitter:site" content="@_theskumar">
+
+<meta itemprop="name" content="How to setup an IRC channel properly ">
+<meta property="og:title" content="How to setup an IRC channel properly "/>
+<meta property="og:url" content="https://saurabh-kumar.com/blog/drafts/irc.html">
+<meta property="og:description" content="If you need to create a new IRC channel for your community, how to set it up safely and securely.">
+<meta property="og:site_name" content="Saurabh Kumar">
+<meta property="og:article:author" content="Saurabh Kumar">
+ <meta property="og:article:published_time" content="2015-06-16T01:03:10+05:30"><meta name="twitter:title" content="How to setup an IRC channel properly ">
+<meta name="twitter:description" content="If you need to create a new IRC channel for your community, how to set it up safely and securely.">
+<meta name="twitter:card" content="summary">
+
+
+
+
+  <link rel="stylesheet" href="https://saurabh-kumar.com/blog/theme/css/main.f.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+
+  <link href="https://saurabh-kumar.com/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Saurabh Kumar Full Atom Feed" />
+
+</head>
+
+<body class=" article page-single  software">
+
+    <header>
+        <div class='site_info'>
+          <a href="https://saurabh-kumar.com/blog" class='logo'>
+                <img src="https://1.gravatar.com/avatar/fc974e2829eac6e3512a9d7f82e04723?s=160" alt="logo">
+          </a>
+          <div class="info">
+            <h2><a href="https://saurabh-kumar.com/blog">Saurabh Kumar</a></h2>
+            <p>Thoughts and Writings</p>
+          </div>
+        </div>
+
+        <div class="subscribe">
+            <a class="subscribe-button icon-feed" href="https://saurabh-kumar.com/blog/feeds/all.atom.xml">Subscribe</a>
+        </div>
+    </header>
+
+    <main role=main>
+<article itemscope itemtype="http://schema.org/BlogPosting" class='blogPosting'>
+    <div id="article_title" class='title blogPosting-title'>
+        <h1 itemprop="headline">How to setup an <span class="caps">IRC</span> channel&nbsp;properly</h1>
+        <time datetime="2015-06-16 01:03:10+05:30" itemprop="datePublished">Tue 16 June 2015</time>.
+
+    </div>
+  <div id="article_text" itemprop="articleBody" class='blogPosting-text'>
+    <h3 id="creating-a-channel">Creating a&nbsp;channel</h3>
+<p>Creating a new channel is as simple as typing the following <span class="caps">IRC</span> command from&nbsp;anywhere:</p>
+<pre><code>/join #&lt;channel_name&gt;
+</code></pre>
+
+<h3 id="inviting-people-to-join-channel">Inviting people to join&nbsp;channel</h3>
+<pre><code>/invite &lt;usernmae&gt; #&lt;channel_name&gt;
+</code></pre>
+
+<h3 id="protecting-the-channel-against-takeover">Protecting the channel against&nbsp;takeover</h3>
+<p>ChanServ is a network service provided by some <span class="caps">IRC</span> networks. Channel takeovers are virtually impossible when a channel is registered with&nbsp;ChanServ.</p>
+<pre><code>/msg ChanServ register #&lt;channel_name&gt;
+</code></pre>
+
+<pre><code>/msg ChanServ set #&lt;channel_name&gt; guard on
+</code></pre>
+
+<h4 id="set-channel-topic">Set channel&nbsp;topic</h4>
+<pre><code>/topic #&lt;channel_name&gt; NEW TOPIC
+</code></pre>
+
+<p><strong>References</strong></p>
+<p>http://www.wikihow.com/wikiHow:<span class="caps">IRC</span>-Cheat-Sheet<br />
+http://www.wikihow.com/Add-ChanServ-to-Your-<span class="caps">IRC</span>-Channel-on-Freenode</p>
+  </div>
+  <style>.promo {
+    text-align: left;
+    border: 1px solid #E3E5E4;
+    background: #F3F4EE;
+    padding: 5px 15px;
+    position: relative;
+    margin-left: 73px;
+    margin-top: 20px;
+}
+.promo img {
+    position: absolute;
+    left: -67px;
+    width: 60px;
+    top: -17px;
+}
+.promo .tweet {
+    position: absolute;
+    right: 0px;
+    top: 4px;
+    width: 95px;
+}
+</style>
+<div style="border-bottom: 1px dashed #CCC;">&nbsp;</div>
+<div class="promo">
+    <img src="http://blog.vjeux.com/wp-content/themes/coogee/images/at-twitter.png" />
+    <div class="tweet">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="_theskumar">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        </div>
+    If you liked this article, you might be interested in my <a href="http://www.twitter.com/_theskumar/" target="_blank">Twitter feed</a> as well.
+</div>
+<div style="border-bottom: 1px dashed #CCC;">&nbsp;</div>
+
+  <div id="article_meta" class='blogPosting-meta'>
+    <p>Category: <a href="https://saurabh-kumar.com/blog/category/software.html">software</a>
+ Tags:
+      <a href="https://saurabh-kumar.com/blog/tag/irc.html">irc</a>,      <a href="https://saurabh-kumar.com/blog/tag/communication.html">communication</a>    </p>
+  </div>
+
+    <div class='blogPosting-comment' id="article_comments" style="display:block">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_identifier = "drafts/irc.html";
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://saurabhkumar.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+    </div>
+
+</article>
+    </main>
+    <footer>
+<p><a href="https://saurabh-kumar.com/blog/" class="button_accent">&larr; Back</a></p>
+        <div id="ending_message" class='clearfix'>
+            <section class='copyright'>
+                <a rel="license" target="blank" href="https://creativecommons.org/licenses/by/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
+            </section>
+            <section class='builtby'>
+                Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. Theme by Saurabh Kumar on <a href="https://github.com/theskumar/pelican-svbtle-responsive" target="_blank">github</a>.
+            </section>
+        </div>
+    </footer>
+
+<script>
+function addLink() {
+    var body_element = document.getElementsByTagName('body')[0],
+        selection = window.getSelection(),
+        pagelink = "<br><br>Read more at: <a href='"+document.location.href+"'>"+document.location.href+"</a>",
+        copytext = selection + pagelink,
+        newdiv = document.createElement('div');
+    newdiv.style.position='absolute';
+    newdiv.style.left='-99999px';
+    body_element.appendChild(newdiv);
+    newdiv.innerHTML = copytext;
+    selection.selectAllChildren(newdiv);
+    window.setTimeout(function() {
+        body_element.removeChild(newdiv);
+    },0);
+}
+
+// register the listener.
+document.getElementById('article_text').oncopy = addLink;
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" data-no-instant></script>
+  <script src="https://saurabh-kumar.com/blog/theme/js/main.min.js"></script>
+  <script data-no-instant>
+    InstantClick.init();
+  </script>
+  <script>
+    // initialize fitvids
+    $(document).ready(function(){$("body").fitVids();});
+  </script>
+<script>
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+    function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+    e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+    e.src='https://www.google-analytics.com/analytics.js';
+    r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-26681217-2','auto');ga('send','pageview');
+</script>
+</body>
+</html>
