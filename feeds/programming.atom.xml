@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Saurabh Kumar</title><link href="https://saurabh-kumar.com/blog/" rel="alternate"></link><link href="https://saurabh-kumar.com/blog/feeds/programming.atom.xml" rel="self"></link><id>https://saurabh-kumar.com/blog/</id><updated>2013-09-01T12:00:00+05:30</updated><entry><title>Prevent Hash DoS in python</title><link href="https://saurabh-kumar.com/blog/hash-dos-in-python.html" rel="alternate"></link><published>2013-09-01T12:00:00+05:30</published><updated>2013-09-01T12:00:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2013-09-01:blog/hash-dos-in-python.html</id><summary type="html">&lt;blockquote class="twitter-tweet"&gt;&lt;p&gt;$ export &lt;span class="caps"&gt;PYTHONHASHSEED&lt;/span&gt;=random &amp;#10;&amp;#10;Makes hashes of types unpredictable across &lt;a href="https://twitter.com/search?q=%23python&amp;amp;src=hash"&gt;#python&lt;/a&gt; invocations, making your app more secure to &lt;span class="caps"&gt;DOS&lt;/span&gt;&amp;nbsp;attacks.&lt;/p&gt;&amp;mdash; Anand B Pillai (@pythonhacker) &lt;a href="https://twitter.com/pythonhacker/statuses/375671280394989568"&gt;September 5, 2013&lt;/a&gt;&lt;/blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Saurabh Kumar - programming</title><link href="https://saurabh-kumar.com/blog/" rel="alternate"></link><link href="https://saurabh-kumar.com/blog/feeds/programming.atom.xml" rel="self"></link><id>https://saurabh-kumar.com/blog/</id><updated>2013-09-01T12:00:00+05:30</updated><entry><title>Prevent Hash DoS in python</title><link href="https://saurabh-kumar.com/blog/hash-dos-in-python.html" rel="alternate"></link><published>2013-09-01T12:00:00+05:30</published><updated>2013-09-01T12:00:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2013-09-01:/blog/hash-dos-in-python.html</id><summary type="html">&lt;p class="first last"&gt;How can you prevent denial of service attacks in python if you are using python &amp;lt;=&amp;nbsp;3&lt;/p&gt;
+</summary><content type="html">&lt;blockquote class="twitter-tweet"&gt;&lt;p&gt;$ export &lt;span class="caps"&gt;PYTHONHASHSEED&lt;/span&gt;=random &amp;#10;&amp;#10;Makes hashes of types unpredictable across &lt;a href="https://twitter.com/search?q=%23python&amp;amp;src=hash"&gt;#python&lt;/a&gt; invocations, making your app more secure to &lt;span class="caps"&gt;DOS&lt;/span&gt;&amp;nbsp;attacks.&lt;/p&gt;&amp;mdash; Anand B Pillai (@pythonhacker) &lt;a href="https://twitter.com/pythonhacker/statuses/375671280394989568"&gt;September 5, 2013&lt;/a&gt;&lt;/blockquote&gt;
 &lt;script async src="//platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;&lt;p&gt;Denial of Service through hash table multi-collisions or &lt;a class="reference external" href="https://web.archive.org/web/20131016035929/http://www.purehacking.com/blogs/josh-zlatin/introduction-to-hash-dos-attacks"&gt;Hash DoS&lt;/a&gt; has been
 first reported in 28-Dec-2011 &lt;a class="footnote-reference" href="#id4" id="id1"&gt;[1]&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Python and Ruby are partially vulnerable, depending on version or whether the server
@@ -27,22 +28,22 @@ python 3 &lt;a class="footnote-reference" href="#id6" id="id3"&gt;[3]&lt;/a&gt; 
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/div&gt;
-</summary><category term="python"></category><category term="security"></category></entry><entry><title>Django: Useful resource compilation</title><link href="https://saurabh-kumar.com/blog/django.html" rel="alternate"></link><published>2013-08-20T04:43:00+05:30</published><updated>2013-08-20T04:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2013-08-20:blog/django.html</id><summary type="html">&lt;p&gt;The best place to get started with &lt;a href="https://www.djangoproject.com/"&gt;Django&lt;/a&gt; is to explore it&amp;#8217;s official site and then dig into it&amp;#8217;s &lt;a href="https://github.com/django/django"&gt;source code&lt;/a&gt; on Github, and then ask questions either on &lt;a href="http://stackoverflow.com/questions/tagged/django"&gt;stack overflow&lt;/a&gt; or it&amp;#8217;s user&amp;#8217;s &lt;a href="https://groups.google.com/forum/?fromgroups#!forum/django-users"&gt;mailing-list&lt;/a&gt;. And for obvious reasons, you&amp;#8217;ll find Google your friend at every&amp;nbsp;step.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Django request-response cycle" src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xta1/t31.0-8/12080375_10154236046688098_3540696576391451460_o.jpg" /&gt;&lt;/p&gt;
+</content><category term="python"></category><category term="security"></category></entry><entry><title>Django: Useful resource compilation</title><link href="https://saurabh-kumar.com/blog/django.html" rel="alternate"></link><published>2013-08-20T04:43:00+05:30</published><updated>2013-08-20T04:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2013-08-20:/blog/django.html</id><summary type="html">&lt;p&gt;A list of different django framework related links and resources. Recommended for those who are new to Django&amp;nbsp;Framework.&lt;/p&gt;</summary><content type="html">&lt;p&gt;The best place to get started with &lt;a href="https://www.djangoproject.com/"&gt;Django&lt;/a&gt; is to explore it&amp;#8217;s official site and then dig into it&amp;#8217;s &lt;a href="https://github.com/django/django"&gt;source code&lt;/a&gt; on Github, and then ask questions either on &lt;a href="http://stackoverflow.com/questions/tagged/django"&gt;stack overflow&lt;/a&gt; or it&amp;#8217;s user&amp;#8217;s &lt;a href="https://groups.google.com/forum/?fromgroups#!forum/django-users"&gt;mailing-list&lt;/a&gt;. And for obvious reasons, you&amp;#8217;ll find Google your friend at every&amp;nbsp;step.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Django Illustration" src="https://saurabh-kumar.com/blog/images/django-illustration.jpg"&gt;&lt;/p&gt;
 &lt;p&gt;Here is a list of my personal recommendation and references to the some of resources, I found useful and&amp;nbsp;interesting.&lt;/p&gt;
-&lt;h4 id="books-magazines"&gt;Books &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt;&amp;nbsp;Magazines&lt;/h4&gt;
+&lt;h2 id="books-magazines"&gt;Books &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt; Magazines&lt;a class="headerlink" href="#books-magazines" title="Permanent link"&gt;▶&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://www.pythonweekly.com/"&gt;Python&amp;nbsp;Weekly&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://propython.com/"&gt;Pro&amp;nbsp;Python&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://django.2scoops.org/"&gt;Two scoops of&amp;nbsp;Django&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="articles"&gt;Articles&lt;/h4&gt;
+&lt;h2 id="articles"&gt;Articles&lt;a class="headerlink" href="#articles" title="Permanent link"&gt;▶&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://blog.etianen.com/blog/2013/06/08/django-querysets/"&gt;Using Django querysets effectively&lt;/a&gt; - Use of &lt;code&gt;.iterator()&lt;/code&gt; to make the database query&amp;nbsp;efficient.&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://pydanny.com/core-concepts-django-modelforms.html"&gt;Core Concepts of Django&amp;nbsp;ModelForms&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://denibertovic.com/posts/celery-best-practices/"&gt;Celery Best Practices&lt;/a&gt; by&amp;nbsp;Deni&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="apps-libraries"&gt;Apps &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt;&amp;nbsp;Libraries&lt;/h4&gt;
+&lt;h2 id="apps-libraries"&gt;Apps &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt; Libraries&lt;a class="headerlink" href="#apps-libraries" title="Permanent link"&gt;▶&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://docs.celeryproject.org/en/latest/django/index.html"&gt;Celery&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://docs.python-requests.org/en/latest/"&gt;Requests&lt;/a&gt;&lt;/li&gt;
@@ -51,7 +52,7 @@ python 3 &lt;a class="footnote-reference" href="#id6" id="id3"&gt;[3]&lt;/a&gt; 
 &lt;li&gt;&lt;a href="https://github.com/Adys/django-push-notifications"&gt;django-push-notifications&lt;/a&gt; - Send push notifications to mobile devices through &lt;span class="caps"&gt;GCM&lt;/span&gt; or &lt;span class="caps"&gt;APNS&lt;/span&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://mezzanine.jupo.org/"&gt;Mezzanine&lt;/a&gt; - &lt;span class="caps"&gt;CMS&lt;/span&gt; Based on&amp;nbsp;Django&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="sysadmin-deployment"&gt;Sysadmin/&amp;nbsp;Deployment&lt;/h3&gt;
+&lt;h1 id="sysadmin-deployment"&gt;Sysadmin/ Deployment&lt;a class="headerlink" href="#sysadmin-deployment" title="Permanent link"&gt;▶&lt;/a&gt;&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://newrelic.com/"&gt;Newrelic&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://docs.fabfile.org/en/1.6/"&gt;Fabric&lt;/a&gt;&lt;/li&gt;
@@ -60,10 +61,16 @@ python 3 &lt;a class="footnote-reference" href="#id6" id="id3"&gt;[3]&lt;/a&gt; 
 &lt;li&gt;&lt;a href="https://getsentry.com"&gt;Sentry&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;If you have reached till here and would like to explore more checkout &lt;a href="https://github.com/stars/theskumar?direction=desc&amp;amp;language=python&amp;amp;q=&amp;amp;sort=stars"&gt;my stared python repo list&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="caps"&gt;EDITS&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Updates&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;There is an &lt;a href="https://github.com/rosarior/awesome-django#awesome-django"&gt;awesome-django&lt;/a&gt; project on github that has curated list of awesome Django apps and projects, that you should definetely&amp;nbsp;check-out. &lt;/li&gt;
-&lt;/ul&gt;</summary><category term="python"></category><category term="django"></category></entry><entry><title>What it’s like to work on Open Source Projects</title><link href="https://saurabh-kumar.com/blog/working-on-open-source-project.html" rel="alternate"></link><published>2013-08-20T04:43:00+05:30</published><updated>2013-08-20T04:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2013-08-20:blog/working-on-open-source-project.html</id><summary type="html">&lt;p&gt;You’ll hear the word “open” a&amp;nbsp;lot.&lt;/p&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content><category term="python"></category><category term="django"></category></entry><entry><title>What it’s like to work on Open Source Projects</title><link href="https://saurabh-kumar.com/blog/working-on-open-source-project.html" rel="alternate"></link><published>2013-08-20T04:43:00+05:30</published><updated>2013-08-20T04:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2013-08-20:/blog/working-on-open-source-project.html</id><summary type="html">&lt;p&gt;You’ll hear the word “open” a&amp;nbsp;lot.&lt;/p&gt;
+&lt;p&gt;Open means you can talk about your work publicly. Anyone from anywhere
+might pop in and comment on your work. You can pop in and comment on any
+other&amp;nbsp;project.&lt;/p&gt;
+&lt;p&gt;Open also means people won’t be telling you what to do …&lt;/p&gt;</summary><content type="html">&lt;p&gt;You’ll hear the word “open” a&amp;nbsp;lot.&lt;/p&gt;
 &lt;p&gt;Open means you can talk about your work publicly. Anyone from anywhere
 might pop in and comment on your work. You can pop in and comment on any
 other&amp;nbsp;project.&lt;/p&gt;
@@ -238,4 +245,4 @@ only a matter of time that will get you up the&amp;nbsp;ladder.&lt;/p&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://hintjens.com/blog:95"&gt;Ten Rules for Open Source&amp;nbsp;Success&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-</summary><category term="open-source"></category><category term="community"></category><category term="social"></category></entry></feed>
+</content><category term="open-source"></category><category term="community"></category><category term="social"></category></entry></feed>
