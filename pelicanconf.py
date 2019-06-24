@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
-from __future__ import unicode_literals
-# import os
 
 AUTHOR = u'Saurabh Kumar'
 SITENAME = u'Saurabh Kumar'
@@ -15,11 +13,28 @@ TYPOGRIFY = True
 THEME = "theme/pelican-svbtle-responsive"
 
 PLUGINS = [
-    # 'pelican_commonmark',  # https://github.com/theskumar/pelican-commonmark
+    'readtime',
 ]
 
+DEFAULT_DATE_FORMAT = "%d %B %Y"
 
-MD_EXTENSIONS = ['headerid(level=3)', 'toc', 'extra', 'admonition', 'nl2br']
+MARKDOWN = {
+    'extension_configs': {
+        'markdown.extensions.codehilite': {
+            'css_class': 'highlight',
+            'guess_lang': False,
+        },
+        'markdown.extensions.meta': {},
+        'markdown.extensions.extra': {},
+        'markdown.extensions.admonition': {},
+        'markdown.extensions.nl2br': {},
+        'markdown.extensions.toc': {
+            "permalink": '▶',
+        },
+        'markdown.extensions.sane_lists': {},
+    },
+    'output_format': 'html5',
+}
 
 # FILES_TO_COPY = (('extra/CNAME', 'CNAME'),)
 
@@ -27,6 +42,9 @@ MD_EXTENSIONS = ['headerid(level=3)', 'toc', 'extra', 'admonition', 'nl2br']
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
+AUTHOR_FEED_ATOM = None
+AUTHOR_FEED_RSS = None
+
 
 # Blogroll
 LINKS = ()

@@ -30,7 +30,9 @@ The plan simple location redirect will look like:
 
 So your `redirects-map.conf` file should look like:
 
-```
+```nginx
+# /etc/nginx/redirects-map.conf 
+
 /contact-success/ /contact;
 ~^/showcase/(.*)?$ /projects/;
 ```
@@ -40,7 +42,7 @@ So your `redirects-map.conf` file should look like:
 1. Upload the `redirects-map.conf` to your server at `/etc/nginx`
 2. Add the following at the top of your nginx virtualhost file, which imports the file and creates a hash map:
 
-```
+```nginx
 map $uri $redirected_url {
     default "none";
     include /etc/nginx/redirects-map.conf;
@@ -49,7 +51,7 @@ map $uri $redirected_url {
 
 Then in the `server` block, write the following rule:
 
-```
+```nginx
 # pre-defined redirects
 if ($redirected_url != "none") {
     rewrite ^ $redirected_url permanent;
@@ -58,7 +60,7 @@ if ($redirected_url != "none") {
 
 Now your virtualhost conf file should look like:
 
-```
+```nginx
 map $uri $redirected_url {
     default "none";
     include /etc/nginx/redirects-map.conf;
@@ -78,4 +80,5 @@ server {
 }
 ```
 
-**Note**: Nginx has a limit on how big the redirects-map.conf can be, which is controlled via `map_hash_bucket_size` variable. If you get the following error, `[emerg]: could not build the map_hash`, you should increase the `map_hash_bucket_size` to account for the filesize. Say your redirects-map.conf is 30Kb, you set the `map_hash_bucket_size` variable in the `http` block of `nginx.conf` to `30720`;
+!!!warning
+    Nginx has a limit on how big the `redirects-map.conf` can be, which is controlled via `map_hash_bucket_size` variable. If you get the following error, `[emerg]: could not build the map_hash`, you should increase the `map_hash_bucket_size` to account for the filesize. Say your redirects-map.conf is 30Kb, you set the `map_hash_bucket_size` variable in the `http` block of `nginx.conf` to `30720`;

@@ -7,7 +7,8 @@ Summary: A list of different django framework related links and resources. Recom
 
 The best place to get started with [Django][1] is to explore it's official site and then dig into it's [source code][2] on Github, and then ask questions either on [stack overflow][3] or it's user's [mailing-list][4]. And for obvious reasons, you'll find Google your friend at every step.
 
-![Django request-response cycle](https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xta1/t31.0-8/12080375_10154236046688098_3540696576391451460_o.jpg)
+
+![Django Illustration]({static}/images/django-illustration.jpg)
 
 Here is a list of my personal recommendation and references to the some of resources, I found useful and interesting.
 
@@ -43,9 +44,8 @@ Sysadmin/ Deployment
 
 **If you have reached till here and would like to explore more checkout [my stared python repo list][20].**
 
-EDITS:
-
-- There is an [awesome-django](https://github.com/rosarior/awesome-django#awesome-django) project on github that has curated list of awesome Django apps and projects, that you should definetely check-out. 
+!!!note "Updates"
+    - There is an [awesome-django](https://github.com/rosarior/awesome-django#awesome-django) project on github that has curated list of awesome Django apps and projects, that you should definetely check-out. 
 
   [1]: https://www.djangoproject.com/
   [2]: https://github.com/django/django

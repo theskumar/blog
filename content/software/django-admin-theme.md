@@ -1,22 +1,21 @@
-Title: Quickly update django admin
+Title: Quickly add custom branding to Django admin site
 Slug: quickly-update-django-admin
 Date: 2018-03-06 17:18:33
-Tags: django, programming, theme
+Tags: django, theming, admin
 Category: 
 Author: Saurabh Kumar
 Lang: en
 Summary: How to quickly customize django admin theme.
 
-You probably just wanted to them the django cms in a quick way to give a look and feel of the brand you are working with.
+This is a quick 2mins guide to add custom branding to your Django Admin Site.
 
-Here is a 2-min guide to do so:
+**Step-1:** Create a `admin/base_site.html` file inside your templates directory. 
+**Step-2:** Copy/Paste the following snippet in that file.
 
-1. Create a `admin/base_site.html` file inside your templates directory. 
-2. Copy the following snippet in that file.
+```jinja
+<!-- yoursite/templates/admin/base_site.html -->
 
-```
 {% extends "admin/base_site.html" %}
-
 {% block extrastyle %}
 <style>
   :root {
@@ -87,9 +86,9 @@ Here is a 2-min guide to do so:
 {% endblock %}
 ```
 
-3. Now modify the following css variables in the file as per your brand colors.
+**Step-3:** Now modify the following css variables in the above file as per your brand colors.
 
-```
+```scss
 :root {
     --primary-color: #1d1d1b;
     --primary-color-faded: #585853;
@@ -97,5 +96,9 @@ Here is a 2-min guide to do so:
 }
 ```
 
-4. All set!
+**Step-4:** Reload your admin site and you should see updated theme!
 
+!!! tip "Take Away"
+    CSS Variables is a powerful feature you can use to add custom themes.
+
+---

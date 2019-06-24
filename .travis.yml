@@ -1,7 +1,10 @@
 language: python
-sudo: false
+
 python:
-- 2.7
+- 3.6
+
+cache:
+  - pip
 
 install:
 - pip install -r requirements.txt
@@ -23,6 +26,6 @@ env:
   - OUTPUTDIR: output
   - GH_REF: github.com/theskumar/blog.git
   - secure: "HkrUDcSV3Bw/wPgOKMpjgcyLQc7OQAdDHFXp8daJZowa3rs0aUbfLEhTDX2nkWHKuueG7p7TaV7jccIHtjo9EzNn24bVyoPrRB80jWvVtaYdqDL8mLQzbTORHyY5z/8cW3wh1uuKE2+HAcdXyqP7qSviRE/8laj1nv3a4w5TSGk="
+
 after_success:
-- bash travis_deploy.sh
-- linkchecker http://saurabh-kumar.com/ --check-extern
+  - make github_travis

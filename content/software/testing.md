@@ -61,7 +61,7 @@ While testing, the tools can be categorized in two catergories:
 $ pip install pytest
 ```
 
-```python
+```python hl_lines="10"
 # file: my_utils.py
 def is_prime(num):
     ## Do something here and return true or false

@@ -39,23 +39,24 @@ alias sv="source venv/bin/activate"
 
 Now everytime you want to work on a project, that has virtualenv at `venv` folder you can run.
 
-<pre>
+```shell
 $ sv 
 (venv) $ 
-</pre>
+```
 
 `(venv)` before your prompt indicates that you are in the virtualenv active in that folder. To deactivate, you can run
 
-<pre>
+```shell
 (venv) $ deactivate
 $
-</pre>
-
-__Tip__: If you like to include the name of directory in the prompt also, instead of just `(venv)`, you can use the following alias instead:
-
-```shell
-alias sv='source venv/bin/activate && export PS1="(${PWD##*/}-venv)$_OLD_VIRTUAL_PS1"'
 ```
+
+!!!Tip
+    If you like to include the name of directory in the prompt also, instead of just `(venv)`, you can use the following alias instead:
+
+    ```
+    alias sv='source venv/bin/activate && export PS1="(${PWD##*/}-venv)$_OLD_VIRTUAL_PS1"'
+    ```
 
 ---
 
