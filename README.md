@@ -1,6 +1,6 @@
 # My Blog 
 
-[![Requirements Status](https://requires.io/github/theskumar/blog/requirements.png?branch=master)](https://requires.io/github/theskumar/blog/requirements/?branch=master) [![Build Status](https://travis-ci.org/theskumar/blog.svg?branch=master)](https://travis-ci.org/theskumar/blog)
+[![Build Status](https://travis-ci.org/theskumar/blog.svg?branch=master)](https://travis-ci.org/theskumar/blog)
 
 Built with [Pelican][1]
 
