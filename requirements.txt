@@ -8,5 +8,4 @@ typogrify==2.0.7
 
 
 ## Development
-fabric3
 ghp-import==0.5.5
