@@ -80,9 +80,5 @@ git_import: publish
 github: git_import
 	git push origin $(GITHUB_PAGES_BRANCH)
 
-github_travis: git_import
-	git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" gh-pages:gh-pages
-	echo 'Deployed to gh-pages'
-
 
 .PHONY: html help clean regenerate serve serve-global devserver publish github

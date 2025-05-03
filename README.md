@@ -6,19 +6,69 @@ Built with [Pelican][1]
 
 ## Setup
 
+### Quick Setup (Recommended)
+
+The easiest way to get started is using the setup script:
+
+```shell
+git clone --recursive git@github.com:theskumar/blog.git theskumar-blog && cd theskumar-blog
+./setup.sh
+source .venv/bin/activate
+```
+
+### Manual Setup with uv
+
+```shell
+git clone --recursive git@github.com:theskumar/blog.git theskumar-blog && cd theskumar-blog
+
+# Install uv (https://github.com/astral-sh/uv)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Create and activate virtual environment
+uv venv
+source .venv/bin/activate
+
+# Install dependencies
+uv pip install -e .
+```
+
+### Legacy Setup (pip)
+
 ```shell
 git clone --recursive git@github.com:theskumar/blog.git theskumar-blog && cd theskumar-blog
 
 # activate virtualenv
 virtualenv venv && source venv/bin/activate
 
-# install the depenciences
+# install the dependencies
 pip install -r requirements.txt
+```
 
+## Development
+
+Start the development server with:
+
+```shell
+make devserver
+```
+
+This will start a server at http://localhost:8000 and automatically regenerate the site when files change.
+
+## Publishing
+
+To build the site for production:
+
+```shell
+make publish
+```
+
+To deploy to GitHub Pages:
+
+```shell
+make github
 ```
 
 The blog uses [pelican-svbtle-responsive][2] theme.
-
 
 ## License
 
