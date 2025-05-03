@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>Saurabh Kumar's Blog <small>shell</small></title>
+    <meta name="description" content="">
+    <meta name="author" content="Saurabh Kumar">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="https://saurabh-kumar.com/blog/theme/html5.js"></script>
+    <![endif]-->
+
+
+    <!-- Le styles -->
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/local.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/pygments.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/font-awesome.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="https://saurabh-kumar.com/blog" class="brand">Saurabh Kumar's Blog</a>
+      </div>
+
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/general.html ">general</a>
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/programming.html ">programming</a>
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/software.html ">software</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+
+
+    <div class='row-fluid''>
+        <div class="article-title span9">
+            <a href="https://saurabh-kumar.com/blog/virtualenv-vs-virtualenvwrapper.html"><h1>Virtualenv vs&nbsp;Virtualenvwrapper</h1></a>
+        </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>Sat 05 April 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="https://saurabh-kumar.com/blog/category/software.html">software</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="https://saurabh-kumar.com/blog/tag/shell.html">shell</a> <a href="https://saurabh-kumar.com/blog/tag/python.html">python</a> <a href="https://saurabh-kumar.com/blog/tag/virtualenv.html">virtualenv</a> </p>
+<p>
+</p>
+      </div>
+      <div class="article-content span8">
+	<h1 id="intro">Intro</h1>
+<p><strong><a href="https://virtualenv.readthedocs.org/en/latest/">virtualenv</a></strong> is a tool to create isolated Python environments. It&#8217;s core advantage is you can manage different version of python libraries in your different&nbsp;projects.</p>
+<p>It works by creating a new folder on your harddisk and then copying basic python executable and libraries into it. It also add some scripts which can be used to activate the python environment. These activation scripts when executed, they change&nbsp;the <code>PYTHONPATH</code> environment variable to point the folder it recides in. This is as simple as&nbsp;that.</p>
+<p>You can create the virtualenv folder anywhere you like as far you execute the activation scripts provided in that folder, your current shell session will pick up the correct version of&nbsp;libraries.</p>
+<p><strong><a href="https://virtualenvwrapper.readthedocs.org/">Virtualenvwrapper</a></strong> is a utility on top&nbsp;of <code>virtualenv</code> that adds a bunch of utilities that allow the environment folders to be created at a single place, instead of spreading around&nbsp;everywhere.</p>
+<h2 id="make-virtualenv-work-the-way-it-should">Make virtualenv work, the way it&nbsp;should</h2>
+<p>My preferred way to working&nbsp;around <code>virtualenv</code> is to go the root folder of the project i&#8217;m working on, create a virtualenv folder&nbsp;called <code>venv</code>. You can name it anything you like as far as you stick to&nbsp;it. </p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/work/myproject
+virtualenv<span class="w"> </span>venv
+</code></pre></div>
+
+<p>This is the common name I use in every project. This gives advantage that I can add this folder in my&nbsp;global <code>.gitignore</code> file.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># if you don&#39;t have it already.</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;venv/&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.gitignore<span class="w">  </span>
+</code></pre></div>
+
+<p>Now you can the following shell alias to&nbsp;your <code>~/.bashrc</code> or <code>~/.zshrc</code>, depending on your default&nbsp;shell.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">alias</span><span class="w"> </span><span class="nv">sv</span><span class="o">=</span><span class="s2">&quot;source venv/bin/activate&quot;</span>
+</code></pre></div>
+
+<p>Now everytime you want to work on a project, that has virtualenv&nbsp;at <code>venv</code> folder you can&nbsp;run.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sv<span class="w"> </span>
+<span class="o">(</span>venv<span class="o">)</span><span class="w"> </span>$<span class="w"> </span>
+</code></pre></div>
+
+<p><code>(venv)</code> before your prompt indicates that you are in the virtualenv active in that folder. To deactivate, you can&nbsp;run</p>
+<div class="highlight"><pre><span></span><code><span class="o">(</span>venv<span class="o">)</span><span class="w"> </span>$<span class="w"> </span>deactivate
+$
+</code></pre></div>
+
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you like to include the name of directory in the prompt also, instead of&nbsp;just <code>(venv)</code>, you can use the following alias&nbsp;instead:</p>
+<p><code>alias sv='source venv/bin/activate &amp;&amp; export PS1="(${PWD##*/}-venv)$_OLD_VIRTUAL_PS1"'</code></p>
+</div>
+<hr>
+<p>So having this setup makes me get over two cliams by <strong>virtualenvwrapper</strong>.</p>
+<ul>
+<li>It&#8217;s easy to activate, here I just have to&nbsp;type <code>sv</code>, after going to project folder, which anyways I&#8217;ll be going&nbsp;to.</li>
+<li>Adding <code>venv/</code> to your global gitignore will make sure it doesn&#8217;t get included in git by&nbsp;default.</li>
+</ul>
+<p>This way you can avoid learning yet another tool or manage one less dependency. The best advantage is that all the source code of different libraries just lives by the side your project. In your favorite editor you can search globally for a term or&nbsp;defination.</p>
+<p>If you use <a href="https://www.sublimetext.com/">sublime text editor</a>, it&#8217;s as easy as&nbsp;pressing <code>cmd + shift + f</code> and type what you are looking for, or&nbsp;use <code>cmd + p</code> to navigate to any file inside installed python&nbsp;package.</p>
+<h2 id="summary">Summary</h2>
+<ul>
+<li>We learnt how to live without virtualenv&nbsp;wrapper</li>
+<li>having python libraries installed, alongside your project helps you search and go over code base&nbsp;easily</li>
+</ul>
+<p><strong>Edits</strong></p>
+<ul>
+<li>Add enhancemnet to&nbsp;alias <code>sv</code>, based on @chadhs&nbsp;suggestion</li>
+<li>Use <code>&amp;&amp;</code> in <code>sv</code> alias so that <span class="caps">PS</span> is updated only when command succeed. Thanks&nbsp;@petrjoachim.</li>
+</ul>
+	<!-- <a class="btn btn-mini xsmall" href="https://saurabh-kumar.com/blog/virtualenv-vs-virtualenvwrapper.html">
+          <i class="icon-comment"></i> Comment </a> -->
+	<hr />
+      </div>
+
+    </div>
+
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="https://saurabh-kumar.com/blog/tag/shell.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+
+ 
+  
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/theskumar"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
+	    <li><a href="https://twitter.com/_theskumar"><i class="icon-Twitter/X" style="color: #1f334b"></i>Twitter/X</a></li>
+	    <li><a href="https://mastodon.social/@theskumar"><i class="icon-Mastodon" style="color: #1f334b"></i>Mastodon</a></li>
+
+	  </ul>
+	</div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="https://saurabh-kumar.com/blog"><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="https://saurabh-kumar.com/blog/archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="https://saurabh-kumar.com/blog/tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="https://saurabh-kumar.com/blog">Saurabh Kumar's Blog</a>
+      &copy; Saurabh Kumar
+    Powered by <a href="https://github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="https://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="https://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>

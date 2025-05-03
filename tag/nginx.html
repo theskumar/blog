@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>Saurabh Kumar's Blog <small>nginx</small></title>
+    <meta name="description" content="">
+    <meta name="author" content="Saurabh Kumar">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="https://saurabh-kumar.com/blog/theme/html5.js"></script>
+    <![endif]-->
+
+
+    <!-- Le styles -->
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/local.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/pygments.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/font-awesome.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="https://saurabh-kumar.com/blog" class="brand">Saurabh Kumar's Blog</a>
+      </div>
+
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/general.html ">general</a>
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/programming.html ">programming</a>
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/software.html ">software</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+
+
+    <div class='row-fluid''>
+        <div class="article-title span9">
+            <a href="https://saurabh-kumar.com/blog/bulk-redirect-with-nginx.html"><h1>Bulk redirection with&nbsp;Nginx</h1></a>
+        </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>Mon 25 September 2017 </p>
+
+<p style="text-align: left;">
+Filed under <a href="https://saurabh-kumar.com/blog/category/software.html">software</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="https://saurabh-kumar.com/blog/tag/devops.html">devops</a> <a href="https://saurabh-kumar.com/blog/tag/nginx.html">nginx</a> </p>
+<p>
+</p>
+      </div>
+      <div class="article-content span8">
+	<p>In this post, I am going to talk about how you can setup a redirects on a server for many individual paths. It uses the hash&nbsp;map</p>
+<h2 id="creating-files">Creating&nbsp;files</h2>
+<p>Create a file&nbsp;called <code>redirects-map.conf</code>, each line of the file will represents a redirect rule. The format of line&nbsp;is:</p>
+<div class="highlight"><pre><span></span><code>&lt;old_location&gt; &lt;new_url&gt;;
+</code></pre></div>
+
+<p><code>old_location</code> can be specified in both regex or plan simple&nbsp;path.</p>
+<p>The regex version looks likes&nbsp;this:</p>
+<div class="highlight"><pre><span></span><code>~^/showcase/(.*)?$ /projects/;
+</code></pre></div>
+
+<p>The plan simple location redirect will look&nbsp;like:</p>
+<div class="highlight"><pre><span></span><code>/contact-success/ /contact;
+</code></pre></div>
+
+<p>So&nbsp;your <code>redirects-map.conf</code> file should look&nbsp;like:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># /etc/nginx/redirects-map.conf </span>
+
+<span class="k">/contact-success/</span><span class="w"> </span><span class="s">/contact</span><span class="p">;</span>
+<span class="k">~^/showcase/(.*)?$</span><span class="w"> </span><span class="s">/projects/</span><span class="p">;</span>
+</code></pre></div>
+
+<h2 id="setting-up-nginx">Setting up&nbsp;nginx</h2>
+<ol>
+<li>Upload&nbsp;the <code>redirects-map.conf</code> to your server&nbsp;at <code>/etc/nginx</code></li>
+<li>Add the following at the top of your nginx virtualhost file, which imports the file and creates a hash&nbsp;map:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">map</span><span class="w"> </span><span class="nv">$uri</span><span class="w"> </span><span class="nv">$redirected_url</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">default</span><span class="w"> </span><span class="s">&quot;none&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">include</span><span class="w"> </span><span class="s">/etc/nginx/redirects-map.conf</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Then in&nbsp;the <code>server</code> block, write the following&nbsp;rule:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># pre-defined redirects</span>
+<span class="k">if</span><span class="w"> </span><span class="s">(</span><span class="nv">$redirected_url</span><span class="w"> </span><span class="s">!=</span><span class="w"> </span><span class="s">&quot;none&quot;)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">rewrite</span><span class="w"> </span><span class="s">^</span><span class="w"> </span><span class="nv">$redirected_url</span><span class="w"> </span><span class="s">permanent</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Now your virtualhost conf file should look&nbsp;like:</p>
+<div class="highlight"><pre><span></span><code><span class="k">map</span><span class="w"> </span><span class="nv">$uri</span><span class="w"> </span><span class="nv">$redirected_url</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">default</span><span class="w"> </span><span class="s">&quot;none&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">include</span><span class="w"> </span><span class="s">/etc/nginx/redirects-map.conf</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">listen</span><span class="w">        </span><span class="mi">443</span><span class="w"> </span><span class="s">ssl</span><span class="w"> </span><span class="s">http2</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server_name</span><span class="w">   </span><span class="s">example.org</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1"># pre-defined redirects</span>
+<span class="w">    </span><span class="kn">if</span><span class="w"> </span><span class="s">(</span><span class="nv">$redirected_url</span><span class="w"> </span><span class="s">!=</span><span class="w"> </span><span class="s">&quot;none&quot;)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kn">rewrite</span><span class="w"> </span><span class="s">^</span><span class="w"> </span><span class="nv">$redirected_url</span><span class="w"> </span><span class="s">permanent</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1"># rest of the rules</span>
+
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Nginx has a limit on how big&nbsp;the <code>redirects-map.conf</code> can be, which is controlled&nbsp;via <code>map_hash_bucket_size</code> variable. If you get the following&nbsp;error, <code>[emerg]: could not build the map_hash</code>, you should increase&nbsp;the <code>map_hash_bucket_size</code> to account for the filesize. Say your redirects-map.conf is 30Kb, you set&nbsp;the <code>map_hash_bucket_size</code> variable in&nbsp;the <code>http</code> block&nbsp;of <code>nginx.conf</code> to <code>30720</code>;</p>
+</div>
+	<!-- <a class="btn btn-mini xsmall" href="https://saurabh-kumar.com/blog/bulk-redirect-with-nginx.html">
+          <i class="icon-comment"></i> Comment </a> -->
+	<hr />
+      </div>
+
+    </div>
+
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="https://saurabh-kumar.com/blog/tag/nginx.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+
+ 
+  
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/theskumar"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
+	    <li><a href="https://twitter.com/_theskumar"><i class="icon-Twitter/X" style="color: #1f334b"></i>Twitter/X</a></li>
+	    <li><a href="https://mastodon.social/@theskumar"><i class="icon-Mastodon" style="color: #1f334b"></i>Mastodon</a></li>
+
+	  </ul>
+	</div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="https://saurabh-kumar.com/blog"><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="https://saurabh-kumar.com/blog/archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="https://saurabh-kumar.com/blog/tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="https://saurabh-kumar.com/blog">Saurabh Kumar's Blog</a>
+      &copy; Saurabh Kumar
+    Powered by <a href="https://github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="https://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="https://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>

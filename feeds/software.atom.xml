@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Saurabh Kumar's Blog - software</title><link href="https://saurabh-kumar.com/blog/" rel="alternate"></link><link href="https://saurabh-kumar.com/blog/feeds/software.atom.xml" rel="self"></link><id>https://saurabh-kumar.com/blog/</id><updated>2025-05-02T00:00:00+05:30</updated><entry><title>Handling Django Authentication Redirects in HTMX Applications</title><link href="https://saurabh-kumar.com/blog/django-htmx-auth-redirects.html" rel="alternate"></link><published>2025-05-02T00:00:00+05:30</published><updated>2025-05-02T00:00:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2025-05-02:/blog/django-htmx-auth-redirects.html</id><summary type="html">&lt;p&gt;A clean solution for handling Django authentication redirects in &lt;span class="caps"&gt;HTMX&lt;/span&gt; applications, preventing login forms from appearing in the wrong place when sessions&amp;nbsp;expire.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Ever been in the middle of building a slick Django app with &lt;span class="caps"&gt;HTMX&lt;/span&gt; when you hit that authentication headache? You know the one - a user&amp;#8217;s session times out, they click something, and instead of getting a proper login page, they get a weird login form fragment jammed into whatever &lt;span class="caps"&gt;DOM&lt;/span&gt; element was being updated. Not exactly the seamless experience we&amp;#8217;re going&amp;nbsp;for!&lt;/p&gt;
+&lt;p&gt;I ran into this problem recently and thought, &amp;#8220;There&amp;#8217;s got to be a better way.&amp;#8221; Spoiler alert: there is! Let me show you a simple middleware solution that makes this authentication dance much&amp;nbsp;smoother.&lt;/p&gt;
+&lt;h2 id="whats-going-wrong"&gt;What&amp;#8217;s Going&amp;nbsp;Wrong?&lt;/h2&gt;
+&lt;p&gt;&lt;span class="caps"&gt;HTMX&lt;/span&gt; is fantastic for making our web apps feel snappy with those partial page updates. But here&amp;#8217;s the issue: when a user&amp;#8217;s session expires and they click an &lt;span class="caps"&gt;HTMX&lt;/span&gt;-powered button, Django tries to redirect them to the login page. The problem? &lt;span class="caps"&gt;HTMX&lt;/span&gt; doesn&amp;#8217;t know any better, so it tries to swap that login page &lt;span class="caps"&gt;HTML&lt;/span&gt; into whatever element was targeted - maybe just a tiny div or table cell. The result is a mess - login forms crammed into weird places, broken layouts, and confused&amp;nbsp;users.&lt;/p&gt;
+&lt;p&gt;What we really want is to redirect the whole browser to the login page, and then bring users right back to where they were after they log in again. Simple idea, slightly tricky&amp;nbsp;execution.&lt;/p&gt;
+&lt;h2 id="the-fix-a-bit-of-middleware-magic"&gt;The Fix: A Bit of Middleware&amp;nbsp;Magic&lt;/h2&gt;
+&lt;p&gt;Here&amp;#8217;s my solution - a small but mighty piece of middleware that catches those authentication redirects and tells &lt;span class="caps"&gt;HTMX&lt;/span&gt;, &amp;#8220;Hey, don&amp;#8217;t just swap in that content, take me to a whole new page!&amp;#8221; The best part? It remembers where you were trying to go, so you&amp;#8217;ll end up right back where you wanted after logging in. Check it&amp;nbsp;out:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;urllib.parse&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;urlparse&lt;/span&gt;
+
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;HtmxAuthRedirectMiddleware&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    Middleware to handle HTMX authentication redirects properly.&lt;/span&gt;
+&lt;span class="sd"&gt;    When an HTMX request results in a 302 redirect (typically for authentication),&lt;/span&gt;
+&lt;span class="sd"&gt;    this middleware:&lt;/span&gt;
+&lt;span class="sd"&gt;    1. Changes the response status code to 204 (No Content)&lt;/span&gt;
+&lt;span class="sd"&gt;    2. Adds an HX-Redirect header with the redirect URL&lt;/span&gt;
+&lt;span class="sd"&gt;    3. Preserves the original request path in the &amp;#39;next&amp;#39; query parameter&lt;/span&gt;
+&lt;span class="sd"&gt;    This ensures that after authentication, the user is returned to the page&lt;/span&gt;
+&lt;span class="sd"&gt;    they were attempting to access, maintaining a seamless UX with HTMX.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;get_response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_response&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__call__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_response&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="c1"&gt;# HTMX request returning 302 likely is login required.&lt;/span&gt;
+        &lt;span class="c1"&gt;# Take the redirect location and send it as the HX-Redirect header value,&lt;/span&gt;
+        &lt;span class="c1"&gt;# with &amp;#39;next&amp;#39; query param set to where the request originated. Also change&lt;/span&gt;
+        &lt;span class="c1"&gt;# response status code to 204 (no content) so that htmx will obey the&lt;/span&gt;
+        &lt;span class="c1"&gt;# HX-Redirect header value.&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;HX-Request&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status_code&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;302&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="c1"&gt;# Determine the next path from referer or current request path&lt;/span&gt;
+            &lt;span class="n"&gt;ref_header&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Referer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;ref_header&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;referer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urlparse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ref_header&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="n"&gt;next_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;referer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;next_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;
+
+            &lt;span class="c1"&gt;# Parse the redirect URL&lt;/span&gt;
+            &lt;span class="n"&gt;redirect_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urlparse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;location&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+            &lt;span class="c1"&gt;# Set response status code to 204 for HTMX to process the redirect&lt;/span&gt;
+            &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status_code&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;204&lt;/span&gt;
+
+            &lt;span class="c1"&gt;# Create the redirect URL manually to avoid encoding issues&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;redirect_url&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="c1"&gt;# Extract the query parameters&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;next=&amp;quot;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;redirect_url&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                    &lt;span class="c1"&gt;# Replace the existing next parameter&lt;/span&gt;
+                    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+                    &lt;span class="n"&gt;new_query&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sub&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                        &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;next=[^&amp;amp;]*&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;next=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;next_path&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;redirect_url&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;
+                    &lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                    &lt;span class="c1"&gt;# Append a new next parameter&lt;/span&gt;
+                    &lt;span class="n"&gt;new_query&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;redirect_url&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;amp;next=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;next_path&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="c1"&gt;# No existing query parameters&lt;/span&gt;
+                &lt;span class="n"&gt;new_query&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;next=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;next_path&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+
+            &lt;span class="c1"&gt;# Set the new HX-Redirect header&lt;/span&gt;
+            &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;HX-Redirect&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;redirect_url&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;?&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;new_query&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Note: This middleware is inspired by &lt;a href="https://www.caktusgroup.com/blog/2022/11/11/how-handle-django-login-redirects-htmx/"&gt;this post&lt;/a&gt; by the caktus&amp;nbsp;group.&lt;/p&gt;
+&lt;h2 id="so-how-does-this-thing-work"&gt;So How Does This Thing&amp;nbsp;Work?&lt;/h2&gt;
+&lt;p&gt;Let me break down what this middleware is doing in plain&amp;nbsp;English:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Spotting the Problem&lt;/strong&gt;: It watches for &lt;span class="caps"&gt;HTMX&lt;/span&gt; requests that get a &amp;#8220;redirect to login&amp;#8221; response (that&amp;#8217;s the 302 status&amp;nbsp;code).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Changing the Signal&lt;/strong&gt;: Instead of letting that redirect happen normally, it changes the response to a &amp;#8220;204 No Content&amp;#8221; - which is basically telling &lt;span class="caps"&gt;HTMX&lt;/span&gt;, &amp;#8220;Hey, wait a sec, check the headers for special&amp;nbsp;instructions.&amp;#8221;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The Magic Header&lt;/strong&gt;: It adds&amp;nbsp;an &lt;code&gt;HX-Redirect&lt;/code&gt; header that &lt;span class="caps"&gt;HTMX&lt;/span&gt; understands as &amp;#8220;redirect the &lt;span class="caps"&gt;ENTIRE&lt;/span&gt; page to this &lt;span class="caps"&gt;URL&lt;/span&gt;&amp;#8221; rather than just swapping&amp;nbsp;content.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Breadcrumb Trail&lt;/strong&gt;: It tucks the original page &lt;span class="caps"&gt;URL&lt;/span&gt; into&amp;nbsp;the &lt;code&gt;next&lt;/code&gt; parameter so Django knows where to send the user after they log&amp;nbsp;in.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The cool part is how it handles all the edge&amp;nbsp;cases:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It properly parses URLs to avoid any weirdness with&amp;nbsp;parameters&lt;/li&gt;
+&lt;li&gt;It&amp;#8217;s smart about figuring out where the user was really trying to go (using the referer when&amp;nbsp;available)&lt;/li&gt;
+&lt;li&gt;It works nicely with existing code that might already be using&amp;nbsp;the &lt;code&gt;next&lt;/code&gt; parameter&lt;/li&gt;
+&lt;li&gt;All this happens invisibly to the user - they just see a smooth transition to login and&amp;nbsp;back&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="adding-this-to-your-project"&gt;Adding This to Your&amp;nbsp;Project&lt;/h2&gt;
+&lt;p&gt;Getting this set up is super simple. Just drop the middleware into your Django project and add it to&amp;nbsp;your &lt;code&gt;MIDDLEWARE&lt;/code&gt; list&amp;nbsp;in &lt;code&gt;settings.py&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;MIDDLEWARE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="c1"&gt;# Your other middleware stuff...&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;yourapp.middleware.HtmxAuthRedirectMiddleware&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Just make sure it comes after Django&amp;#8217;s authentication middleware in the list - order matters&amp;nbsp;here!&lt;/p&gt;
+&lt;h2 id="why-this-makes-your-app-better"&gt;Why This Makes Your App&amp;nbsp;Better&lt;/h2&gt;
+&lt;p&gt;This little piece of middleware punches above its weight&amp;nbsp;class:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;No More Ugly Surprises&lt;/strong&gt;: Users never see that weird &amp;#8220;login form crammed into a table cell&amp;#8221;&amp;nbsp;problem.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;They Pick Up Right Where They Left Off&lt;/strong&gt;: After logging in, they land exactly where they were&amp;nbsp;headed.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Zero Extra JavaScript&lt;/strong&gt;: No need to write any client-side code - it just&amp;nbsp;works.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Keep Your Code Clean&lt;/strong&gt;: Instead of sprinkling authentication redirect handling all over your views, it&amp;#8217;s all in one tidy&amp;nbsp;place.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="wrapping-up"&gt;Wrapping&amp;nbsp;Up&lt;/h2&gt;
+&lt;p&gt;If you&amp;#8217;re building something cool with Django and &lt;span class="caps"&gt;HTMX&lt;/span&gt; (and who isn&amp;#8217;t these days?), this little middleware trick can save you and your users a lot of headaches. Authentication hiccups are those small details that separate polished apps from the &amp;#8220;almost there&amp;#8221;&amp;nbsp;ones.&lt;/p&gt;
+&lt;p&gt;What I love about this solution is that it uses what&amp;#8217;s already built into both Django and &lt;span class="caps"&gt;HTMX&lt;/span&gt; - no reinventing the wheel, just connecting things in a smart way. &lt;span class="caps"&gt;HTMX&lt;/span&gt; gives us those special headers, Django gives us middleware hooks, and together they create&amp;nbsp;magic!&lt;/p&gt;
+&lt;p&gt;Drop this into your project, and that annoying &amp;#8220;login form in the wrong place&amp;#8221; problem just&amp;#8230; disappears. Your users probably won&amp;#8217;t notice anything - and that&amp;#8217;s exactly the point. The best &lt;span class="caps"&gt;UX&lt;/span&gt; improvements are the ones that fix problems users didn&amp;#8217;t even know they&amp;nbsp;had.&lt;/p&gt;
+&lt;p&gt;Give it a try in your project, and let me know how it works for you! I&amp;#8217;m always open to tweaks and&amp;nbsp;improvements.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Happy&amp;nbsp;coding!&lt;/p&gt;</content><category term="software"></category><category term="django"></category><category term="htmx"></category><category term="authentication"></category><category term="middleware"></category><category term="web-development"></category></entry><entry><title>Quickly add custom branding to Django admin site</title><link href="https://saurabh-kumar.com/blog/quickly-update-django-admin.html" rel="alternate"></link><published>2018-03-06T17:18:33+05:30</published><updated>2018-03-06T17:18:33+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2018-03-06:/blog/quickly-update-django-admin.html</id><summary type="html">&lt;p&gt;How to quickly customize and brand your Django admin interface in minutes using css&amp;nbsp;variables.&lt;/p&gt;</summary><content type="html">&lt;p&gt;This is a quick 2mins guide to add custom branding to your Django Admin&amp;nbsp;Site.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step-1:&lt;/strong&gt; Create&amp;nbsp;a &lt;code&gt;admin/base_site.html&lt;/code&gt; file inside your templates directory.&lt;br&gt;
+&lt;strong&gt;Step-2:&lt;/strong&gt; Copy/Paste the following snippet in that&amp;nbsp;file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="x"&gt;&amp;lt;!-- yoursite/templates/admin/base_site.html --&amp;gt;&lt;/span&gt;
+
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;admin/base_site.html&amp;quot;&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;block&lt;/span&gt; &lt;span class="nv"&gt;extrastyle&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;span class="x"&gt;&amp;lt;style&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;  :root {&lt;/span&gt;
+&lt;span class="x"&gt;    --primary-color: #1d1d1b;&lt;/span&gt;
+&lt;span class="x"&gt;    --primary-color-faded: #585853;&lt;/span&gt;
+&lt;span class="x"&gt;    --secondary-color: #4dffba;&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+
+&lt;span class="x"&gt;  ::selection {&lt;/span&gt;
+&lt;span class="x"&gt;    background: var(--secondary-color);&lt;/span&gt;
+&lt;span class="x"&gt;    color:var(--primary-color);&lt;/span&gt;
+&lt;span class="x"&gt;    opacity:1&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+
+&lt;span class="x"&gt;  ::-moz-selection {&lt;/span&gt;
+&lt;span class="x"&gt;    background: var(--secondary-color);&lt;/span&gt;
+&lt;span class="x"&gt;    color:var(--primary-color);&lt;/span&gt;
+&lt;span class="x"&gt;    opacity:1&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+&lt;span class="x"&gt;  body {&lt;/span&gt;
+&lt;span class="x"&gt;    font-family:&lt;/span&gt;
+&lt;span class="x"&gt;          -apple-system,&lt;/span&gt;
+&lt;span class="x"&gt;          BlinkMacSystemFont,&lt;/span&gt;
+&lt;span class="x"&gt;          &amp;#39;Segoe UI&amp;#39;,&lt;/span&gt;
+&lt;span class="x"&gt;          Roboto,&lt;/span&gt;
+&lt;span class="x"&gt;          Helvetica,&lt;/span&gt;
+&lt;span class="x"&gt;          Arial,&lt;/span&gt;
+&lt;span class="x"&gt;          sans-serif,&lt;/span&gt;
+&lt;span class="x"&gt;          &amp;#39;Apple Color Emoji&amp;#39;,&lt;/span&gt;
+&lt;span class="x"&gt;          &amp;#39;Segoe UI Emoji&amp;#39;,&lt;/span&gt;
+&lt;span class="x"&gt;          &amp;#39;Segoe UI Symbol&amp;#39;;&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+&lt;span class="x"&gt;  #branding h1, #branding h1 a:link, #branding h1 a:visited {&lt;/span&gt;
+&lt;span class="x"&gt;    color: #ffffff;&lt;/span&gt;
+&lt;span class="x"&gt;    font-weight: 400;&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+
+&lt;span class="x"&gt;  #header {&lt;/span&gt;
+&lt;span class="x"&gt;    background: var(--primary-color);&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+&lt;span class="x"&gt;  .module h2, .module caption, .inline-group h2 {&lt;/span&gt;
+&lt;span class="x"&gt;    background-color: var(--primary-color-faded);&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+&lt;span class="x"&gt;  div.breadcrumbs {&lt;/span&gt;
+&lt;span class="x"&gt;    background: var(--primary-color-faded);&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+&lt;span class="x"&gt;  a:link, a:visited {&lt;/span&gt;
+&lt;span class="x"&gt;    color: var(--primary-color-faded);&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+&lt;span class="x"&gt;  .selector-chosen h2 {&lt;/span&gt;
+&lt;span class="x"&gt;    background: var(--primary-color-faded) !important;&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+&lt;span class="x"&gt;  .button, input[type=submit], input[type=button], .submit-row input, a.button {&lt;/span&gt;
+&lt;span class="x"&gt;    background: var(--primary-color-faded);&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+&lt;span class="x"&gt;  .button.default, input[type=submit].default, .submit-row input.default {&lt;/span&gt;
+&lt;span class="x"&gt;    background: var(--primary-color);&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+&lt;span class="x"&gt;  .button:active, input[type=submit]:active, input[type=button]:active, .button:focus, input[type=submit]:focus, input[type=button]:focus, .button:hover, input[type=submit]:hover, input[type=button]:hover {&lt;/span&gt;
+&lt;span class="x"&gt;    background: var(--primary-color-faded);&lt;/span&gt;
+&lt;span class="x"&gt;    opacity: 0.8;&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+&lt;span class="x"&gt;  .button.default:active, input[type=submit].default:active, .button.default:focus, input[type=submit].default:focus, .button.default:hover, input[type=submit].default:hover {&lt;/span&gt;
+&lt;span class="x"&gt;    background: var(--primary-color);&lt;/span&gt;
+&lt;span class="x"&gt;    opacity: 0.8;&lt;/span&gt;
+&lt;span class="x"&gt;  }&lt;/span&gt;
+&lt;span class="x"&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endblock&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Step-3:&lt;/strong&gt; Now modify the following css variables in the above file as per your brand&amp;nbsp;colors.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nd"&gt;:root&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;--primary-color&lt;/span&gt;&lt;span class="nd"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;#1d1d1b&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;--primary-color-faded&lt;/span&gt;&lt;span class="nd"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;#585853&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;--secondary-color&lt;/span&gt;&lt;span class="nd"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;#4dffba&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Step-4:&lt;/strong&gt; Reload your admin site and you should see updated&amp;nbsp;theme!&lt;/p&gt;
+&lt;div class="admonition tip"&gt;
+&lt;p class="admonition-title"&gt;Take&amp;nbsp;Away&lt;/p&gt;
+&lt;p&gt;&lt;span class="caps"&gt;CSS&lt;/span&gt; Variables is a powerful feature you can use to add custom&amp;nbsp;themes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;p&gt;Happy&amp;nbsp;coding!&lt;/p&gt;</content><category term="software"></category><category term="django"></category><category term="theming"></category><category term="admin"></category><category term="customization"></category><category term="branding"></category></entry><entry><title>Bulk redirection with Nginx</title><link href="https://saurabh-kumar.com/blog/bulk-redirect-with-nginx.html" rel="alternate"></link><published>2017-09-25T16:43:00+05:30</published><updated>2017-09-25T16:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2017-09-25:/blog/bulk-redirect-with-nginx.html</id><summary type="html">&lt;p&gt;Walkthrough of how you can utilize the power of nginx to setup mass redirects of random urls on your&amp;nbsp;server&lt;/p&gt;</summary><content type="html">&lt;p&gt;In this post, I am going to talk about how you can setup a redirects on a server for many individual paths. It uses the hash&amp;nbsp;map&lt;/p&gt;
+&lt;h2 id="creating-files"&gt;Creating&amp;nbsp;files&lt;/h2&gt;
+&lt;p&gt;Create a file&amp;nbsp;called &lt;code&gt;redirects-map.conf&lt;/code&gt;, each line of the file will represents a redirect rule. The format of line&amp;nbsp;is:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;old_location&amp;gt; &amp;lt;new_url&amp;gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;old_location&lt;/code&gt; can be specified in both regex or plan simple&amp;nbsp;path.&lt;/p&gt;
+&lt;p&gt;The regex version looks likes&amp;nbsp;this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~^/showcase/(.*)?$ /projects/;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The plan simple location redirect will look&amp;nbsp;like:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/contact-success/ /contact;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So&amp;nbsp;your &lt;code&gt;redirects-map.conf&lt;/code&gt; file should look&amp;nbsp;like:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# /etc/nginx/redirects-map.conf &lt;/span&gt;
+
+&lt;span class="k"&gt;/contact-success/&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;/contact&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;~^/showcase/(.*)?$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;/projects/&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id="setting-up-nginx"&gt;Setting up&amp;nbsp;nginx&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Upload&amp;nbsp;the &lt;code&gt;redirects-map.conf&lt;/code&gt; to your server&amp;nbsp;at &lt;code&gt;/etc/nginx&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Add the following at the top of your nginx virtualhost file, which imports the file and creates a hash&amp;nbsp;map:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;map&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$uri&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$redirected_url&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;default&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;none&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;/etc/nginx/redirects-map.conf&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then in&amp;nbsp;the &lt;code&gt;server&lt;/code&gt; block, write the following&amp;nbsp;rule:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# pre-defined redirects&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$redirected_url&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;!=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;none&amp;quot;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;rewrite&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;^&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$redirected_url&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;permanent&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now your virtualhost conf file should look&amp;nbsp;like:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;map&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$uri&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$redirected_url&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;default&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;none&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;/etc/nginx/redirects-map.conf&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;server&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;listen&lt;/span&gt;&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;ssl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;http2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;server_name&lt;/span&gt;&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="s"&gt;example.org&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# pre-defined redirects&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$redirected_url&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;!=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;none&amp;quot;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="kn"&gt;rewrite&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;^&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$redirected_url&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;permanent&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# rest of the rules&lt;/span&gt;
+
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="admonition warning"&gt;
+&lt;p class="admonition-title"&gt;Warning&lt;/p&gt;
+&lt;p&gt;Nginx has a limit on how big&amp;nbsp;the &lt;code&gt;redirects-map.conf&lt;/code&gt; can be, which is controlled&amp;nbsp;via &lt;code&gt;map_hash_bucket_size&lt;/code&gt; variable. If you get the following&amp;nbsp;error, &lt;code&gt;[emerg]: could not build the map_hash&lt;/code&gt;, you should increase&amp;nbsp;the &lt;code&gt;map_hash_bucket_size&lt;/code&gt; to account for the filesize. Say your redirects-map.conf is 30Kb, you set&amp;nbsp;the &lt;code&gt;map_hash_bucket_size&lt;/code&gt; variable in&amp;nbsp;the &lt;code&gt;http&lt;/code&gt; block&amp;nbsp;of &lt;code&gt;nginx.conf&lt;/code&gt; to &lt;code&gt;30720&lt;/code&gt;;&lt;/p&gt;
+&lt;/div&gt;</content><category term="software"></category><category term="devops"></category><category term="nginx"></category></entry><entry><title>Frontend Development</title><link href="https://saurabh-kumar.com/blog/frontend.html" rel="alternate"></link><published>2017-04-02T12:43:00+05:30</published><updated>2017-04-02T12:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2017-04-02:/blog/frontend.html</id><summary type="html">&lt;p&gt;This blog (work in progress) tried to get you familiar with the tools and concepts that I use in day to day&amp;nbsp;basis.&lt;/p&gt;</summary><content type="html">&lt;p&gt;This blog (work in progress) tried to get you familiar with the tools and concepts that I use in day to day&amp;nbsp;basis.&lt;/p&gt;
+&lt;h1 id="concepts"&gt;Concepts&lt;/h1&gt;
+&lt;p&gt;The &lt;strong&gt;Block, Element, Modifier&lt;/strong&gt; methodology (commonly referred to as &lt;a href="http://getbem.com/introduction/"&gt;&lt;span class="caps"&gt;BEM&lt;/span&gt;&lt;/a&gt;) is a popular naming convention for classes in &lt;span class="caps"&gt;HTML&lt;/span&gt; and &lt;span class="caps"&gt;CSS&lt;/span&gt;.  Its goal is to help developers better understand the relationship between the &lt;span class="caps"&gt;HTML&lt;/span&gt; and &lt;span class="caps"&gt;CSS&lt;/span&gt; in a given project. Here is a quick&amp;nbsp;example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;/* Block component */&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;btn&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{}&lt;/span&gt;
+
+&lt;span class="c"&gt;/* Element that depends upon the block */&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;btn__price&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{}&lt;/span&gt;
+
+&lt;span class="c"&gt;/* Modifier that changes the style of the block */&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;btn--orange&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;btn--big&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here are some of the recommended reading materials:&lt;br&gt;
+1. https://css-tricks.com/bem-101/&lt;br&gt;
+2.&amp;nbsp;https://en.bem.info/&lt;/p&gt;
+&lt;h1 id="tooling"&gt;Tooling&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://emmet.io/"&gt;Emmet&lt;/a&gt; &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="summary"&gt;Summary&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;Edits&lt;/strong&gt;&lt;/p&gt;</content><category term="software"></category><category term="frontend"></category></entry><entry><title>Testing (Software Development)</title><link href="https://saurabh-kumar.com/blog/testing.html" rel="alternate"></link><published>2015-06-16T01:03:10+05:30</published><updated>2015-06-16T01:03:10+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2015-06-16:/blog/testing.html</id><summary type="html">&lt;p&gt;Getting familiar with testing in software&amp;nbsp;industry.&lt;/p&gt;</summary><content type="html">&lt;p&gt;The idea here is to introduce you to the world of testing in software industry and provide some guidelines and things to keep in mind while you are doing&amp;nbsp;so.&lt;/p&gt;
+&lt;iframe src="https://docs.google.com/presentation/embed?id=1yesEE3ScAsJ3L8AkNMTvEZfOcblBkyVVu1JG0KeCG-4&amp;amp;start=false&amp;amp;loop=false&amp;amp; frameborder="0" width="100%" height="378" style="border:0" allowfullscreen=true&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href="https://docs.google.com/presentation/d/1yesEE3ScAsJ3L8AkNMTvEZfOcblBkyVVu1JG0KeCG-4/pub" target="_blank"&gt;&lt;small&gt;Open in new tab&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id="what-is-software-testing"&gt;What is Software&amp;nbsp;Testing?&lt;/h1&gt;
+&lt;p&gt;Testing in it&amp;#8217;s very basic terms, means &lt;strong&gt;&amp;#8220;check if something is working as espected&amp;#8221;&lt;/strong&gt;. There are many ways of doing it. Some do by it by hand, some peole automate it, some do it in controlled environment, some do it in in production, some do it themself, some ask someone else to do it for them. In software industry, testing is almost the same&amp;nbsp;thing. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Consider software project analogous to your dream house building project&lt;/strong&gt;. In general, you plan for it, design it, hire people to get doing things and then in general you&amp;#8217;ll not test it while you are developing it! Once developed, you&amp;#8217;ll show it to someone, get it approved. Then you either sell it to someone or live in the same&amp;nbsp;house. &lt;/p&gt;
+&lt;p&gt;If you live in that same house, you will, probably, be able to extend or modify the house as per your needs because you know how you have built it. But the other guy who purchased your house, it&amp;#8217;s quite hard to modify or extend it, because he has no clues when the house will fall apart, unless you provide a written specs of the&amp;nbsp;house.&lt;/p&gt;
+&lt;p&gt;Whatever you do with the house, as time passes it becomes increasingly difficult to modify/extend/maintain that house, unless you have an efficient and repeatable way of testing it&amp;#8217;s&amp;nbsp;capabilities.&lt;/p&gt;
+&lt;p&gt;Software testing is very much, what&amp;#8217;s the case with testing a house. It&amp;#8217;s useful, most people don&amp;#8217;t do it, it&amp;#8217;s costly and hard to it and you feel it&amp;#8217;s increasing need as time&amp;nbsp;passes. &lt;/p&gt;
+&lt;h1 id="why-testing-is-important"&gt;Why testing is&amp;nbsp;important?&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In softwares industry, a bad code is acceptable, not a wrong&amp;nbsp;code.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Know your code&amp;nbsp;works&lt;/li&gt;
+&lt;li&gt;Save&amp;nbsp;time&lt;/li&gt;
+&lt;li&gt;Better&amp;nbsp;code&lt;/li&gt;
+&lt;li&gt;It help a software live&amp;nbsp;longer&lt;/li&gt;
+&lt;li&gt;It makes everyone happy, removing&amp;nbsp;fear&lt;/li&gt;
+&lt;li&gt;“Debugging is hard, testing is&amp;nbsp;easy”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="when-to-test-code"&gt;When to test&amp;nbsp;code?&lt;/h1&gt;
+&lt;p&gt;As with&amp;nbsp;anything, &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Softwares must be tested, &lt;em&gt;as soon as possible&lt;/em&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The reason being, if you don&amp;#8217;t 1) probably you&amp;#8217;ll never do it 2) the value of that test decreases as much as you delay&amp;nbsp;it.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Now is better than never.&lt;br&gt;
+&amp;#8212; &lt;a href="https://www.python.org/dev/peps/pep-0020/"&gt;Zen of Python, &lt;span class="caps"&gt;PEP20&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id="how-to-test"&gt;How to&amp;nbsp;test?&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tools are your friend, keep them handy and&amp;nbsp;sharp.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="testing-tools"&gt;Testing&amp;nbsp;Tools&lt;/h2&gt;
+&lt;p&gt;If you are able to write or speak in a particular lauguage, it become very easy to test or tell it to someone what to test. Now, if you have a better tools, it just becomes a breeze to test&amp;nbsp;anything.&lt;/p&gt;
+&lt;p&gt;While testing, the tools can be categorized in two catergories:&lt;br&gt;
+1. Tools that help in discovering, run and cleaning up a test (pytest, unittest, nose, tox, DjangoTestRunner, etc.)&lt;br&gt;
+2. Tools you can use inside your test code (mock, freezegun,&amp;nbsp;responses)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;pytest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# file: my_utils.py&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;is_prime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c1"&gt;## Do something here and return true or false&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;
+
+
+&lt;span class="c1"&gt;# file: test_my_utils.py&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;my_utils&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;is_prime&lt;/span&gt;
+
+&lt;span class="hll"&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_is_prime&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;/span&gt;    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;is_prime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;is_prime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;43&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;is_prime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;abc&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="kc"&gt;False&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;is_prime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="kc"&gt;False&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;py.test
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1 id="further-reading"&gt;Further&amp;nbsp;Reading:&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="http://pytest.org"&gt;pytest.org&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://docs.python-guide.org/en/latest/writing/tests/"&gt;Testing Your Code - Python Guide&lt;/a&gt; - by &lt;a href="http://www.kennethreitz.org/"&gt;Kenneth&amp;nbsp;Reitz&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://bit.ly/pytest0"&gt;Getting Started Testing&lt;/a&gt; - by &lt;a href="http://nedbatchelder.com/site/aboutned.html"&gt;Ned&amp;nbsp;Batchelder&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Got questions/suggestion, write in the comment&amp;nbsp;below.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/theskumar/blog/edit/master/content/software/testing.md"&gt;Edit this&lt;/a&gt; | &lt;a href="https://github.com/theskumar/blog/commits/master/content/software/testing.md"&gt;Changelog/Contributors&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;</content><category term="software"></category><category term="testing"></category><category term="pytest"></category><category term="presentation"></category><category term="software"></category><category term="python"></category></entry><entry><title>Virtualenv vs Virtualenvwrapper</title><link href="https://saurabh-kumar.com/blog/virtualenv-vs-virtualenvwrapper.html" rel="alternate"></link><published>2014-04-05T12:43:00+05:30</published><updated>2014-04-05T12:43:00+05:30</updated><author><name>Saurabh Kumar</name></author><id>tag:saurabh-kumar.com,2014-04-05:/blog/virtualenv-vs-virtualenvwrapper.html</id><summary type="html">&lt;p&gt;This post discusses if given the choice between virtualenv and virtualenvwrapper, what you should choose for working on a project and&amp;nbsp;why?&lt;/p&gt;</summary><content type="html">&lt;h1 id="intro"&gt;Intro&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="https://virtualenv.readthedocs.org/en/latest/"&gt;virtualenv&lt;/a&gt;&lt;/strong&gt; is a tool to create isolated Python environments. It&amp;#8217;s core advantage is you can manage different version of python libraries in your different&amp;nbsp;projects.&lt;/p&gt;
+&lt;p&gt;It works by creating a new folder on your harddisk and then copying basic python executable and libraries into it. It also add some scripts which can be used to activate the python environment. These activation scripts when executed, they change&amp;nbsp;the &lt;code&gt;PYTHONPATH&lt;/code&gt; environment variable to point the folder it recides in. This is as simple as&amp;nbsp;that.&lt;/p&gt;
+&lt;p&gt;You can create the virtualenv folder anywhere you like as far you execute the activation scripts provided in that folder, your current shell session will pick up the correct version of&amp;nbsp;libraries.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="https://virtualenvwrapper.readthedocs.org/"&gt;Virtualenvwrapper&lt;/a&gt;&lt;/strong&gt; is a utility on top&amp;nbsp;of &lt;code&gt;virtualenv&lt;/code&gt; that adds a bunch of utilities that allow the environment folders to be created at a single place, instead of spreading around&amp;nbsp;everywhere.&lt;/p&gt;
+&lt;h2 id="make-virtualenv-work-the-way-it-should"&gt;Make virtualenv work, the way it&amp;nbsp;should&lt;/h2&gt;
+&lt;p&gt;My preferred way to working&amp;nbsp;around &lt;code&gt;virtualenv&lt;/code&gt; is to go the root folder of the project i&amp;#8217;m working on, create a virtualenv folder&amp;nbsp;called &lt;code&gt;venv&lt;/code&gt;. You can name it anything you like as far as you stick to&amp;nbsp;it. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/work/myproject
+virtualenv&lt;span class="w"&gt; &lt;/span&gt;venv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is the common name I use in every project. This gives advantage that I can add this folder in my&amp;nbsp;global &lt;code&gt;.gitignore&lt;/code&gt; file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# if you don&amp;#39;t have it already.&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;venv/&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;~/.gitignore&lt;span class="w"&gt;  &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you can the following shell alias to&amp;nbsp;your &lt;code&gt;~/.bashrc&lt;/code&gt; or &lt;code&gt;~/.zshrc&lt;/code&gt;, depending on your default&amp;nbsp;shell.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sv&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;source venv/bin/activate&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now everytime you want to work on a project, that has virtualenv&amp;nbsp;at &lt;code&gt;venv&lt;/code&gt; folder you can&amp;nbsp;run.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;sv&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="o"&gt;(&lt;/span&gt;venv&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;(venv)&lt;/code&gt; before your prompt indicates that you are in the virtualenv active in that folder. To deactivate, you can&amp;nbsp;run&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;(&lt;/span&gt;venv&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;deactivate
+$
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="admonition tip"&gt;
+&lt;p class="admonition-title"&gt;Tip&lt;/p&gt;
+&lt;p&gt;If you like to include the name of directory in the prompt also, instead of&amp;nbsp;just &lt;code&gt;(venv)&lt;/code&gt;, you can use the following alias&amp;nbsp;instead:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;alias sv='source venv/bin/activate &amp;amp;&amp;amp; export PS1="(${PWD##*/}-venv)$_OLD_VIRTUAL_PS1"'&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;p&gt;So having this setup makes me get over two cliams by &lt;strong&gt;virtualenvwrapper&lt;/strong&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It&amp;#8217;s easy to activate, here I just have to&amp;nbsp;type &lt;code&gt;sv&lt;/code&gt;, after going to project folder, which anyways I&amp;#8217;ll be going&amp;nbsp;to.&lt;/li&gt;
+&lt;li&gt;Adding &lt;code&gt;venv/&lt;/code&gt; to your global gitignore will make sure it doesn&amp;#8217;t get included in git by&amp;nbsp;default.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This way you can avoid learning yet another tool or manage one less dependency. The best advantage is that all the source code of different libraries just lives by the side your project. In your favorite editor you can search globally for a term or&amp;nbsp;defination.&lt;/p&gt;
+&lt;p&gt;If you use &lt;a href="https://www.sublimetext.com/"&gt;sublime text editor&lt;/a&gt;, it&amp;#8217;s as easy as&amp;nbsp;pressing &lt;code&gt;cmd + shift + f&lt;/code&gt; and type what you are looking for, or&amp;nbsp;use &lt;code&gt;cmd + p&lt;/code&gt; to navigate to any file inside installed python&amp;nbsp;package.&lt;/p&gt;
+&lt;h2 id="summary"&gt;Summary&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;We learnt how to live without virtualenv&amp;nbsp;wrapper&lt;/li&gt;
+&lt;li&gt;having python libraries installed, alongside your project helps you search and go over code base&amp;nbsp;easily&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Edits&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Add enhancemnet to&amp;nbsp;alias &lt;code&gt;sv&lt;/code&gt;, based on @chadhs&amp;nbsp;suggestion&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt; in &lt;code&gt;sv&lt;/code&gt; alias so that &lt;span class="caps"&gt;PS&lt;/span&gt; is updated only when command succeed. Thanks&amp;nbsp;@petrjoachim.&lt;/li&gt;
+&lt;/ul&gt;</content><category term="software"></category><category term="shell"></category><category term="python"></category><category term="virtualenv"></category></entry></feed>

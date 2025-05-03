@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>Saurabh Kumar's Blog <small>admin</small></title>
+    <meta name="description" content="">
+    <meta name="author" content="Saurabh Kumar">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="https://saurabh-kumar.com/blog/theme/html5.js"></script>
+    <![endif]-->
+
+
+    <!-- Le styles -->
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/local.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/pygments.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/font-awesome.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="https://saurabh-kumar.com/blog" class="brand">Saurabh Kumar's Blog</a>
+      </div>
+
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/general.html ">general</a>
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/programming.html ">programming</a>
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/software.html ">software</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+
+
+    <div class='row-fluid''>
+        <div class="article-title span9">
+            <a href="https://saurabh-kumar.com/blog/quickly-update-django-admin.html"><h1>Quickly add custom branding to Django admin&nbsp;site</h1></a>
+        </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>Tue 06 March 2018 </p>
+
+<p style="text-align: left;">
+Filed under <a href="https://saurabh-kumar.com/blog/category/software.html">software</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="https://saurabh-kumar.com/blog/tag/django.html">django</a> <a href="https://saurabh-kumar.com/blog/tag/theming.html">theming</a> <a href="https://saurabh-kumar.com/blog/tag/admin.html">admin</a> <a href="https://saurabh-kumar.com/blog/tag/customization.html">customization</a> <a href="https://saurabh-kumar.com/blog/tag/branding.html">branding</a> </p>
+<p>
+</p>
+      </div>
+      <div class="article-content span8">
+	<p>This is a quick 2mins guide to add custom branding to your Django Admin&nbsp;Site.</p>
+<p><strong>Step-1:</strong> Create&nbsp;a <code>admin/base_site.html</code> file inside your templates directory.<br>
+<strong>Step-2:</strong> Copy/Paste the following snippet in that&nbsp;file.</p>
+<div class="highlight"><pre><span></span><code><span class="x">&lt;!-- yoursite/templates/admin/base_site.html --&gt;</span>
+
+<span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;admin/base_site.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">extrastyle</span> <span class="cp">%}</span>
+<span class="x">&lt;style&gt;</span>
+<span class="x">  :root {</span>
+<span class="x">    --primary-color: #1d1d1b;</span>
+<span class="x">    --primary-color-faded: #585853;</span>
+<span class="x">    --secondary-color: #4dffba;</span>
+<span class="x">  }</span>
+
+<span class="x">  ::selection {</span>
+<span class="x">    background: var(--secondary-color);</span>
+<span class="x">    color:var(--primary-color);</span>
+<span class="x">    opacity:1</span>
+<span class="x">  }</span>
+
+<span class="x">  ::-moz-selection {</span>
+<span class="x">    background: var(--secondary-color);</span>
+<span class="x">    color:var(--primary-color);</span>
+<span class="x">    opacity:1</span>
+<span class="x">  }</span>
+<span class="x">  body {</span>
+<span class="x">    font-family:</span>
+<span class="x">          -apple-system,</span>
+<span class="x">          BlinkMacSystemFont,</span>
+<span class="x">          &#39;Segoe UI&#39;,</span>
+<span class="x">          Roboto,</span>
+<span class="x">          Helvetica,</span>
+<span class="x">          Arial,</span>
+<span class="x">          sans-serif,</span>
+<span class="x">          &#39;Apple Color Emoji&#39;,</span>
+<span class="x">          &#39;Segoe UI Emoji&#39;,</span>
+<span class="x">          &#39;Segoe UI Symbol&#39;;</span>
+<span class="x">  }</span>
+<span class="x">  #branding h1, #branding h1 a:link, #branding h1 a:visited {</span>
+<span class="x">    color: #ffffff;</span>
+<span class="x">    font-weight: 400;</span>
+<span class="x">  }</span>
+
+<span class="x">  #header {</span>
+<span class="x">    background: var(--primary-color);</span>
+<span class="x">  }</span>
+<span class="x">  .module h2, .module caption, .inline-group h2 {</span>
+<span class="x">    background-color: var(--primary-color-faded);</span>
+<span class="x">  }</span>
+<span class="x">  div.breadcrumbs {</span>
+<span class="x">    background: var(--primary-color-faded);</span>
+<span class="x">  }</span>
+<span class="x">  a:link, a:visited {</span>
+<span class="x">    color: var(--primary-color-faded);</span>
+<span class="x">  }</span>
+<span class="x">  .selector-chosen h2 {</span>
+<span class="x">    background: var(--primary-color-faded) !important;</span>
+<span class="x">  }</span>
+<span class="x">  .button, input[type=submit], input[type=button], .submit-row input, a.button {</span>
+<span class="x">    background: var(--primary-color-faded);</span>
+<span class="x">  }</span>
+<span class="x">  .button.default, input[type=submit].default, .submit-row input.default {</span>
+<span class="x">    background: var(--primary-color);</span>
+<span class="x">  }</span>
+<span class="x">  .button:active, input[type=submit]:active, input[type=button]:active, .button:focus, input[type=submit]:focus, input[type=button]:focus, .button:hover, input[type=submit]:hover, input[type=button]:hover {</span>
+<span class="x">    background: var(--primary-color-faded);</span>
+<span class="x">    opacity: 0.8;</span>
+<span class="x">  }</span>
+<span class="x">  .button.default:active, input[type=submit].default:active, .button.default:focus, input[type=submit].default:focus, .button.default:hover, input[type=submit].default:hover {</span>
+<span class="x">    background: var(--primary-color);</span>
+<span class="x">    opacity: 0.8;</span>
+<span class="x">  }</span>
+<span class="x">&lt;/style&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</code></pre></div>
+
+<p><strong>Step-3:</strong> Now modify the following css variables in the above file as per your brand&nbsp;colors.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">:root</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">--primary-color</span><span class="nd">:</span><span class="w"> </span><span class="nn">#1d1d1b</span><span class="o">;</span>
+<span class="w">    </span><span class="nt">--primary-color-faded</span><span class="nd">:</span><span class="w"> </span><span class="nn">#585853</span><span class="o">;</span>
+<span class="w">    </span><span class="nt">--secondary-color</span><span class="nd">:</span><span class="w"> </span><span class="nn">#4dffba</span><span class="o">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Step-4:</strong> Reload your admin site and you should see updated&nbsp;theme!</p>
+<div class="admonition tip">
+<p class="admonition-title">Take&nbsp;Away</p>
+<p><span class="caps">CSS</span> Variables is a powerful feature you can use to add custom&nbsp;themes.</p>
+</div>
+<hr>
+<p>Happy&nbsp;coding!</p>
+	<!-- <a class="btn btn-mini xsmall" href="https://saurabh-kumar.com/blog/quickly-update-django-admin.html">
+          <i class="icon-comment"></i> Comment </a> -->
+	<hr />
+      </div>
+
+    </div>
+
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="https://saurabh-kumar.com/blog/tag/admin.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+
+ 
+  
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/theskumar"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
+	    <li><a href="https://twitter.com/_theskumar"><i class="icon-Twitter/X" style="color: #1f334b"></i>Twitter/X</a></li>
+	    <li><a href="https://mastodon.social/@theskumar"><i class="icon-Mastodon" style="color: #1f334b"></i>Mastodon</a></li>
+
+	  </ul>
+	</div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="https://saurabh-kumar.com/blog"><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="https://saurabh-kumar.com/blog/archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="https://saurabh-kumar.com/blog/tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="https://saurabh-kumar.com/blog">Saurabh Kumar's Blog</a>
+      &copy; Saurabh Kumar
+    Powered by <a href="https://github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="https://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="https://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>

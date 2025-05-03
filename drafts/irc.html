@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>How to setup an IRC channel properly - Saurabh Kumar's Blog</title>
+    <meta name="description" content="">
+    <meta name="author" content="Saurabh Kumar">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="https://saurabh-kumar.com/blog/theme/html5.js"></script>
+    <![endif]-->
+
+
+    <!-- Le styles -->
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/local.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/pygments.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/font-awesome.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="https://saurabh-kumar.com/blog" class="brand">Saurabh Kumar's Blog</a>
+      </div>
+
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/general.html ">general</a>
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/programming.html ">programming</a>
+	    <li  class="active" >
+	      <a href="https://saurabh-kumar.com/blog/category/software.html ">software</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+    <div class='article'>
+      <div class="row-fluid">
+           <div class="content-title span9">
+             <h1>How to setup an <span class="caps">IRC</span> channel&nbsp;properly</h1>
+           </div>
+      </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>Tue 16 June 2015 </p>
+
+<p style="text-align: left;">
+Filed under <a href="https://saurabh-kumar.com/blog/category/software.html">software</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="https://saurabh-kumar.com/blog/tag/irc.html">irc</a> <a href="https://saurabh-kumar.com/blog/tag/communication.html">communication</a> </p>
+<p>
+</p>
+      </div>
+
+      <div class="span8">
+	<h1 id="creating-a-channel">Creating a&nbsp;channel</h1>
+<p>Creating a new channel is as simple as typing the following <span class="caps">IRC</span> command from&nbsp;anywhere:</p>
+<div class="highlight"><pre><span></span><code>/join #&lt;channel_name&gt;
+</code></pre></div>
+
+<h1 id="inviting-people-to-join-channel">Inviting people to join&nbsp;channel</h1>
+<div class="highlight"><pre><span></span><code>/invite &lt;usernmae&gt; #&lt;channel_name&gt;
+</code></pre></div>
+
+<h1 id="protecting-the-channel-against-takeover">Protecting the channel against&nbsp;takeover</h1>
+<p>ChanServ is a network service provided by some <span class="caps">IRC</span> networks. Channel takeovers are virtually impossible when a channel is registered with&nbsp;ChanServ.</p>
+<div class="highlight"><pre><span></span><code>/msg ChanServ register #&lt;channel_name&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>/msg ChanServ set #&lt;channel_name&gt; guard on
+</code></pre></div>
+
+<h2 id="set-channel-topic">Set channel&nbsp;topic</h2>
+<div class="highlight"><pre><span></span><code>/topic #&lt;channel_name&gt; NEW TOPIC
+</code></pre></div>
+
+<p><strong>References</strong></p>
+<p>http://www.wikihow.com/wikiHow:<span class="caps">IRC</span>-Cheat-Sheet<br>
+http://www.wikihow.com/Add-ChanServ-to-Your-<span class="caps">IRC</span>-Channel-on-Freenode</p>
+	<hr />
+      </div>
+    </div>
+    <!-- <div class="span10">
+      <h3>Comments</h3>
+
+    </div>   -->
+    </div>
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/theskumar"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
+	    <li><a href="https://twitter.com/_theskumar"><i class="icon-Twitter/X" style="color: #1f334b"></i>Twitter/X</a></li>
+	    <li><a href="https://mastodon.social/@theskumar"><i class="icon-Mastodon" style="color: #1f334b"></i>Mastodon</a></li>
+
+	  </ul>
+	</div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="https://saurabh-kumar.com/blog"><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="https://saurabh-kumar.com/blog/archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="https://saurabh-kumar.com/blog/tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="https://saurabh-kumar.com/blog">Saurabh Kumar's Blog</a>
+      &copy; Saurabh Kumar
+    Powered by <a href="https://github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="https://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="https://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>

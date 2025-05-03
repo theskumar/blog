@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>Saurabh Kumar's Blog <small>django</small></title>
+    <meta name="description" content="">
+    <meta name="author" content="Saurabh Kumar">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="https://saurabh-kumar.com/blog/theme/html5.js"></script>
+    <![endif]-->
+
+
+    <!-- Le styles -->
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/local.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/pygments.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/font-awesome.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="https://saurabh-kumar.com/blog" class="brand">Saurabh Kumar's Blog</a>
+      </div>
+
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/general.html ">general</a>
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/programming.html ">programming</a>
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/software.html ">software</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+
+
+    <div class='row-fluid''>
+        <div class="article-title span9">
+            <a href="https://saurabh-kumar.com/blog/django-htmx-auth-redirects.html"><h1>Handling Django Authentication Redirects in <span class="caps">HTMX</span>&nbsp;Applications</h1></a>
+        </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>Fri 02 May 2025 </p>
+
+<p style="text-align: left;">
+Filed under <a href="https://saurabh-kumar.com/blog/category/software.html">software</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="https://saurabh-kumar.com/blog/tag/django.html">django</a> <a href="https://saurabh-kumar.com/blog/tag/htmx.html">htmx</a> <a href="https://saurabh-kumar.com/blog/tag/authentication.html">authentication</a> <a href="https://saurabh-kumar.com/blog/tag/middleware.html">middleware</a> <a href="https://saurabh-kumar.com/blog/tag/web-development.html">web-development</a> </p>
+<p>
+</p>
+      </div>
+      <div class="article-content span8">
+	<p>Ever been in the middle of building a slick Django app with <span class="caps">HTMX</span> when you hit that authentication headache? You know the one - a user&#8217;s session times out, they click something, and instead of getting a proper login page, they get a weird login form fragment jammed into whatever <span class="caps">DOM</span> element was being updated. Not exactly the seamless experience we&#8217;re going&nbsp;for!</p>
+<p>I ran into this problem recently and thought, &#8220;There&#8217;s got to be a better way.&#8221; Spoiler alert: there is! Let me show you a simple middleware solution that makes this authentication dance much&nbsp;smoother.</p>
+<h2 id="whats-going-wrong">What&#8217;s Going&nbsp;Wrong?</h2>
+<p><span class="caps">HTMX</span> is fantastic for making our web apps feel snappy with those partial page updates. But here&#8217;s the issue: when a user&#8217;s session expires and they click an <span class="caps">HTMX</span>-powered button, Django tries to redirect them to the login page. The problem? <span class="caps">HTMX</span> doesn&#8217;t know any better, so it tries to swap that login page <span class="caps">HTML</span> into whatever element was targeted - maybe just a tiny div or table cell. The result is a mess - login forms crammed into weird places, broken layouts, and confused&nbsp;users.</p>
+<p>What we really want is to redirect the whole browser to the login page, and then bring users right back to where they were after they log in again. Simple idea, slightly tricky&nbsp;execution.</p>
+<h2 id="the-fix-a-bit-of-middleware-magic">The Fix: A Bit of Middleware&nbsp;Magic</h2>
+<p>Here&#8217;s my solution - a small but mighty piece of middleware that catches those authentication redirects and tells <span class="caps">HTMX</span>, &#8220;Hey, don&#8217;t just swap in that content, take me to a whole new page!&#8221; The best part? It remembers where you were trying to go, so you&#8217;ll end up right back where you wanted after logging in. Check it&nbsp;out:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlparse</span>
+
+
+<span class="k">class</span> <span class="nc">HtmxAuthRedirectMiddleware</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Middleware to handle HTMX authentication redirects properly.</span>
+<span class="sd">    When an HTMX request results in a 302 redirect (typically for authentication),</span>
+<span class="sd">    this middleware:</span>
+<span class="sd">    1. Changes the response status code to 204 (No Content)</span>
+<span class="sd">    2. Adds an HX-Redirect header with the redirect URL</span>
+<span class="sd">    3. Preserves the original request path in the &#39;next&#39; query parameter</span>
+<span class="sd">    This ensures that after authentication, the user is returned to the page</span>
+<span class="sd">    they were attempting to access, maintaining a seamless UX with HTMX.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">get_response</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span> <span class="o">=</span> <span class="n">get_response</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="c1"># HTMX request returning 302 likely is login required.</span>
+        <span class="c1"># Take the redirect location and send it as the HX-Redirect header value,</span>
+        <span class="c1"># with &#39;next&#39; query param set to where the request originated. Also change</span>
+        <span class="c1"># response status code to 204 (no content) so that htmx will obey the</span>
+        <span class="c1"># HX-Redirect header value.</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;HX-Request&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span> <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">302</span><span class="p">:</span>
+            <span class="c1"># Determine the next path from referer or current request path</span>
+            <span class="n">ref_header</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Referer&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ref_header</span><span class="p">:</span>
+                <span class="n">referer</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">ref_header</span><span class="p">)</span>
+                <span class="n">next_path</span> <span class="o">=</span> <span class="n">referer</span><span class="o">.</span><span class="n">path</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">next_path</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">path</span>
+
+            <span class="c1"># Parse the redirect URL</span>
+            <span class="n">redirect_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">])</span>
+
+            <span class="c1"># Set response status code to 204 for HTMX to process the redirect</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="mi">204</span>
+
+            <span class="c1"># Create the redirect URL manually to avoid encoding issues</span>
+            <span class="k">if</span> <span class="n">redirect_url</span><span class="o">.</span><span class="n">query</span><span class="p">:</span>
+                <span class="c1"># Extract the query parameters</span>
+                <span class="k">if</span> <span class="s2">&quot;next=&quot;</span> <span class="ow">in</span> <span class="n">redirect_url</span><span class="o">.</span><span class="n">query</span><span class="p">:</span>
+                    <span class="c1"># Replace the existing next parameter</span>
+                    <span class="kn">import</span> <span class="nn">re</span>
+                    <span class="n">new_query</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
+                        <span class="sa">r</span><span class="s2">&quot;next=[^&amp;]*&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;next=</span><span class="si">{</span><span class="n">next_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">redirect_url</span><span class="o">.</span><span class="n">query</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Append a new next parameter</span>
+                    <span class="n">new_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">redirect_url</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s2">&amp;next=</span><span class="si">{</span><span class="n">next_path</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># No existing query parameters</span>
+                <span class="n">new_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;next=</span><span class="si">{</span><span class="n">next_path</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="c1"># Set the new HX-Redirect header</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;HX-Redirect&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">redirect_url</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">?</span><span class="si">{</span><span class="n">new_query</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="n">response</span>
+</code></pre></div>
+
+<p>Note: This middleware is inspired by <a href="https://www.caktusgroup.com/blog/2022/11/11/how-handle-django-login-redirects-htmx/">this post</a> by the caktus&nbsp;group.</p>
+<h2 id="so-how-does-this-thing-work">So How Does This Thing&nbsp;Work?</h2>
+<p>Let me break down what this middleware is doing in plain&nbsp;English:</p>
+<ol>
+<li>
+<p><strong>Spotting the Problem</strong>: It watches for <span class="caps">HTMX</span> requests that get a &#8220;redirect to login&#8221; response (that&#8217;s the 302 status&nbsp;code).</p>
+</li>
+<li>
+<p><strong>Changing the Signal</strong>: Instead of letting that redirect happen normally, it changes the response to a &#8220;204 No Content&#8221; - which is basically telling <span class="caps">HTMX</span>, &#8220;Hey, wait a sec, check the headers for special&nbsp;instructions.&#8221;</p>
+</li>
+<li>
+<p><strong>The Magic Header</strong>: It adds&nbsp;an <code>HX-Redirect</code> header that <span class="caps">HTMX</span> understands as &#8220;redirect the <span class="caps">ENTIRE</span> page to this <span class="caps">URL</span>&#8221; rather than just swapping&nbsp;content.</p>
+</li>
+<li>
+<p><strong>Breadcrumb Trail</strong>: It tucks the original page <span class="caps">URL</span> into&nbsp;the <code>next</code> parameter so Django knows where to send the user after they log&nbsp;in.</p>
+</li>
+</ol>
+<p>The cool part is how it handles all the edge&nbsp;cases:</p>
+<ul>
+<li>It properly parses URLs to avoid any weirdness with&nbsp;parameters</li>
+<li>It&#8217;s smart about figuring out where the user was really trying to go (using the referer when&nbsp;available)</li>
+<li>It works nicely with existing code that might already be using&nbsp;the <code>next</code> parameter</li>
+<li>All this happens invisibly to the user - they just see a smooth transition to login and&nbsp;back</li>
+</ul>
+<h2 id="adding-this-to-your-project">Adding This to Your&nbsp;Project</h2>
+<p>Getting this set up is super simple. Just drop the middleware into your Django project and add it to&nbsp;your <code>MIDDLEWARE</code> list&nbsp;in <code>settings.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">MIDDLEWARE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Your other middleware stuff...</span>
+    <span class="s1">&#39;yourapp.middleware.HtmxAuthRedirectMiddleware&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>Just make sure it comes after Django&#8217;s authentication middleware in the list - order matters&nbsp;here!</p>
+<h2 id="why-this-makes-your-app-better">Why This Makes Your App&nbsp;Better</h2>
+<p>This little piece of middleware punches above its weight&nbsp;class:</p>
+<ol>
+<li><strong>No More Ugly Surprises</strong>: Users never see that weird &#8220;login form crammed into a table cell&#8221;&nbsp;problem.</li>
+<li><strong>They Pick Up Right Where They Left Off</strong>: After logging in, they land exactly where they were&nbsp;headed.</li>
+<li><strong>Zero Extra JavaScript</strong>: No need to write any client-side code - it just&nbsp;works.</li>
+<li><strong>Keep Your Code Clean</strong>: Instead of sprinkling authentication redirect handling all over your views, it&#8217;s all in one tidy&nbsp;place.</li>
+</ol>
+<h2 id="wrapping-up">Wrapping&nbsp;Up</h2>
+<p>If you&#8217;re building something cool with Django and <span class="caps">HTMX</span> (and who isn&#8217;t these days?), this little middleware trick can save you and your users a lot of headaches. Authentication hiccups are those small details that separate polished apps from the &#8220;almost there&#8221;&nbsp;ones.</p>
+<p>What I love about this solution is that it uses what&#8217;s already built into both Django and <span class="caps">HTMX</span> - no reinventing the wheel, just connecting things in a smart way. <span class="caps">HTMX</span> gives us those special headers, Django gives us middleware hooks, and together they create&nbsp;magic!</p>
+<p>Drop this into your project, and that annoying &#8220;login form in the wrong place&#8221; problem just&#8230; disappears. Your users probably won&#8217;t notice anything - and that&#8217;s exactly the point. The best <span class="caps">UX</span> improvements are the ones that fix problems users didn&#8217;t even know they&nbsp;had.</p>
+<p>Give it a try in your project, and let me know how it works for you! I&#8217;m always open to tweaks and&nbsp;improvements.</p>
+<hr>
+<p>Happy&nbsp;coding!</p>
+	<!-- <a class="btn btn-mini xsmall" href="https://saurabh-kumar.com/blog/django-htmx-auth-redirects.html">
+          <i class="icon-comment"></i> Comment </a> -->
+	<hr />
+      </div>
+
+    </div>
+
+
+ 
+
+
+
+    <div class='row-fluid'>
+      <div class='article-title span9'>
+        <a href="https://saurabh-kumar.com/blog/quickly-update-django-admin.html"><h1>Quickly add custom branding to Django admin&nbsp;site</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>Tue 06 March 2018 </p>
+
+<p style="text-align: left;">
+Filed under <a href="https://saurabh-kumar.com/blog/category/software.html">software</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="https://saurabh-kumar.com/blog/tag/django.html">django</a> <a href="https://saurabh-kumar.com/blog/tag/theming.html">theming</a> <a href="https://saurabh-kumar.com/blog/tag/admin.html">admin</a> <a href="https://saurabh-kumar.com/blog/tag/customization.html">customization</a> <a href="https://saurabh-kumar.com/blog/tag/branding.html">branding</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>How to quickly customize and brand your Django admin interface in minutes using css&nbsp;variables.</p>
+	<a class="btn btn-mini xsmall" href="https://saurabh-kumar.com/blog/quickly-update-django-admin.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+
+    </div>
+
+
+ 
+
+
+
+    <div class='row-fluid'>
+      <div class='article-title span9'>
+        <a href="https://saurabh-kumar.com/blog/django.html"><h1>Django: Useful resource&nbsp;compilation</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>Tue 20 August 2013 </p>
+
+<p style="text-align: left;">
+Filed under <a href="https://saurabh-kumar.com/blog/category/programming.html">programming</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="https://saurabh-kumar.com/blog/tag/python.html">python</a> <a href="https://saurabh-kumar.com/blog/tag/django.html">django</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>A list of different django framework related links and resources. Recommended for those who are new to Django&nbsp;Framework.</p>
+	<a class="btn btn-mini xsmall" href="https://saurabh-kumar.com/blog/django.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+
+    </div>
+
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="https://saurabh-kumar.com/blog/tag/django.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+
+ 
+  
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/theskumar"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
+	    <li><a href="https://twitter.com/_theskumar"><i class="icon-Twitter/X" style="color: #1f334b"></i>Twitter/X</a></li>
+	    <li><a href="https://mastodon.social/@theskumar"><i class="icon-Mastodon" style="color: #1f334b"></i>Mastodon</a></li>
+
+	  </ul>
+	</div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="https://saurabh-kumar.com/blog"><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="https://saurabh-kumar.com/blog/archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="https://saurabh-kumar.com/blog/tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="https://saurabh-kumar.com/blog">Saurabh Kumar's Blog</a>
+      &copy; Saurabh Kumar
+    Powered by <a href="https://github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="https://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="https://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>

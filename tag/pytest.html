@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>Saurabh Kumar's Blog <small>pytest</small></title>
+    <meta name="description" content="">
+    <meta name="author" content="Saurabh Kumar">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="https://saurabh-kumar.com/blog/theme/html5.js"></script>
+    <![endif]-->
+
+
+    <!-- Le styles -->
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/local.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/pygments.css" rel="stylesheet">
+    <link href="https://saurabh-kumar.com/blog/theme/font-awesome.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="https://saurabh-kumar.com/blog" class="brand">Saurabh Kumar's Blog</a>
+      </div>
+
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/general.html ">general</a>
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/programming.html ">programming</a>
+	    <li >
+	      <a href="https://saurabh-kumar.com/blog/category/software.html ">software</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+
+
+    <div class='row-fluid''>
+        <div class="article-title span9">
+            <a href="https://saurabh-kumar.com/blog/testing.html"><h1>Testing (Software&nbsp;Development)</h1></a>
+        </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>Tue 16 June 2015 </p>
+
+<p style="text-align: left;">
+Filed under <a href="https://saurabh-kumar.com/blog/category/software.html">software</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="https://saurabh-kumar.com/blog/tag/testing.html">testing</a> <a href="https://saurabh-kumar.com/blog/tag/pytest.html">pytest</a> <a href="https://saurabh-kumar.com/blog/tag/presentation.html">presentation</a> <a href="https://saurabh-kumar.com/blog/tag/software.html">software</a> <a href="https://saurabh-kumar.com/blog/tag/python.html">python</a> </p>
+<p>
+</p>
+      </div>
+      <div class="article-content span8">
+	<p>The idea here is to introduce you to the world of testing in software industry and provide some guidelines and things to keep in mind while you are doing&nbsp;so.</p>
+<iframe src="https://docs.google.com/presentation/embed?id=1yesEE3ScAsJ3L8AkNMTvEZfOcblBkyVVu1JG0KeCG-4&amp;start=false&amp;loop=false&amp; frameborder="0" width="100%" height="378" style="border:0" allowfullscreen=true></iframe>
+<p><a href="https://docs.google.com/presentation/d/1yesEE3ScAsJ3L8AkNMTvEZfOcblBkyVVu1JG0KeCG-4/pub" target="_blank"><small>Open in new tab</small></a></p>
+<h1 id="what-is-software-testing">What is Software&nbsp;Testing?</h1>
+<p>Testing in it&#8217;s very basic terms, means <strong>&#8220;check if something is working as espected&#8221;</strong>. There are many ways of doing it. Some do by it by hand, some peole automate it, some do it in controlled environment, some do it in in production, some do it themself, some ask someone else to do it for them. In software industry, testing is almost the same&nbsp;thing. </p>
+<p><strong>Consider software project analogous to your dream house building project</strong>. In general, you plan for it, design it, hire people to get doing things and then in general you&#8217;ll not test it while you are developing it! Once developed, you&#8217;ll show it to someone, get it approved. Then you either sell it to someone or live in the same&nbsp;house. </p>
+<p>If you live in that same house, you will, probably, be able to extend or modify the house as per your needs because you know how you have built it. But the other guy who purchased your house, it&#8217;s quite hard to modify or extend it, because he has no clues when the house will fall apart, unless you provide a written specs of the&nbsp;house.</p>
+<p>Whatever you do with the house, as time passes it becomes increasingly difficult to modify/extend/maintain that house, unless you have an efficient and repeatable way of testing it&#8217;s&nbsp;capabilities.</p>
+<p>Software testing is very much, what&#8217;s the case with testing a house. It&#8217;s useful, most people don&#8217;t do it, it&#8217;s costly and hard to it and you feel it&#8217;s increasing need as time&nbsp;passes. </p>
+<h1 id="why-testing-is-important">Why testing is&nbsp;important?</h1>
+<blockquote>
+<p>In softwares industry, a bad code is acceptable, not a wrong&nbsp;code.</p>
+</blockquote>
+<ul>
+<li>Know your code&nbsp;works</li>
+<li>Save&nbsp;time</li>
+<li>Better&nbsp;code</li>
+<li>It help a software live&nbsp;longer</li>
+<li>It makes everyone happy, removing&nbsp;fear</li>
+<li>“Debugging is hard, testing is&nbsp;easy”</li>
+</ul>
+<h1 id="when-to-test-code">When to test&nbsp;code?</h1>
+<p>As with&nbsp;anything, </p>
+<blockquote>
+<p>Softwares must be tested, <em>as soon as possible</em>.</p>
+</blockquote>
+<p>The reason being, if you don&#8217;t 1) probably you&#8217;ll never do it 2) the value of that test decreases as much as you delay&nbsp;it.</p>
+<blockquote>
+<p>Now is better than never.<br>
+&#8212; <a href="https://www.python.org/dev/peps/pep-0020/">Zen of Python, <span class="caps">PEP20</span></a></p>
+</blockquote>
+<h1 id="how-to-test">How to&nbsp;test?</h1>
+<blockquote>
+<p>Tools are your friend, keep them handy and&nbsp;sharp.</p>
+</blockquote>
+<h2 id="testing-tools">Testing&nbsp;Tools</h2>
+<p>If you are able to write or speak in a particular lauguage, it become very easy to test or tell it to someone what to test. Now, if you have a better tools, it just becomes a breeze to test&nbsp;anything.</p>
+<p>While testing, the tools can be categorized in two catergories:<br>
+1. Tools that help in discovering, run and cleaning up a test (pytest, unittest, nose, tox, DjangoTestRunner, etc.)<br>
+2. Tools you can use inside your test code (mock, freezegun,&nbsp;responses)</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pytest
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># file: my_utils.py</span>
+<span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="c1">## Do something here and return true or false</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="c1"># file: test_my_utils.py</span>
+<span class="kn">from</span> <span class="nn">my_utils</span> <span class="kn">import</span> <span class="n">is_prime</span>
+
+<span class="hll"><span class="k">def</span> <span class="nf">test_is_prime</span><span class="p">():</span>
+</span>    <span class="k">assert</span> <span class="n">is_prime</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
+    <span class="k">assert</span> <span class="n">is_prime</span><span class="p">(</span><span class="mi">43</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
+    <span class="k">assert</span> <span class="n">is_prime</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span>
+    <span class="k">assert</span> <span class="n">is_prime</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>py.test
+</code></pre></div>
+
+<h1 id="further-reading">Further&nbsp;Reading:</h1>
+<ol>
+<li><a href="http://pytest.org">pytest.org</a></li>
+<li><a href="http://docs.python-guide.org/en/latest/writing/tests/">Testing Your Code - Python Guide</a> - by <a href="http://www.kennethreitz.org/">Kenneth&nbsp;Reitz</a></li>
+<li><a href="http://bit.ly/pytest0">Getting Started Testing</a> - by <a href="http://nedbatchelder.com/site/aboutned.html">Ned&nbsp;Batchelder</a></li>
+</ol>
+<p>Got questions/suggestion, write in the comment&nbsp;below.</p>
+<p><a href="https://github.com/theskumar/blog/edit/master/content/software/testing.md">Edit this</a> | <a href="https://github.com/theskumar/blog/commits/master/content/software/testing.md">Changelog/Contributors</a></p>
+<hr>
+	<!-- <a class="btn btn-mini xsmall" href="https://saurabh-kumar.com/blog/testing.html">
+          <i class="icon-comment"></i> Comment </a> -->
+	<hr />
+      </div>
+
+    </div>
+
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="https://saurabh-kumar.com/blog/tag/pytest.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+
+ 
+  
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/theskumar"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
+	    <li><a href="https://twitter.com/_theskumar"><i class="icon-Twitter/X" style="color: #1f334b"></i>Twitter/X</a></li>
+	    <li><a href="https://mastodon.social/@theskumar"><i class="icon-Mastodon" style="color: #1f334b"></i>Mastodon</a></li>
+
+	  </ul>
+	</div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="https://saurabh-kumar.com/blog"><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="https://saurabh-kumar.com/blog/archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="https://saurabh-kumar.com/blog/tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="https://saurabh-kumar.com/blog">Saurabh Kumar's Blog</a>
+      &copy; Saurabh Kumar
+    Powered by <a href="https://github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="https://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="https://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>
