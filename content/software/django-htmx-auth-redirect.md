@@ -6,7 +6,6 @@ Status: published
 Category: software
 Summary: A clean solution for handling Django authentication redirects in HTMX applications, preventing login forms from appearing in the wrong place when sessions expire.
 
-# Handling Django Authentication Redirects in HTMX Applications
 
 Ever been in the middle of building a slick Django app with HTMX when you hit that authentication headache? You know the one - a user's session times out, they click something, and instead of getting a proper login page, they get a weird login form fragment jammed into whatever DOM element was being updated. Not exactly the seamless experience we're going for!
 

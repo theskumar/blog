@@ -4,10 +4,4 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "pelican~=4.0",
-    "pelican-readtime",
-    "Markdown~=3.1",
-    "typogrify",
-    "ghp-import",
-]
+dependencies = ["pelican[markdown]", "pelican-readtime", "typogrify"]
