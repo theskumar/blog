@@ -3,7 +3,7 @@ pelican==4.0.1
 pelican-readtime==0.2.0
 
 ## Extensions
-Markdown==3.1.1
+Markdown==3.8.1
 typogrify==2.0.7
 
 
